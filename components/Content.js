@@ -73,9 +73,7 @@ const Content = () => {
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-      <Card width="400px" height="400px">
         <MyDropzone />
-      </Card>
       </div>
     </div>
   );
