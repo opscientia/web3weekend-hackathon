@@ -1,7 +1,11 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
-import { Card, Image, Text, Row, Col } from '@geist-ui/react';
+
+import { Card, Image,Button Text, Row, Col } from '@geist-ui/react';
 import { Upload } from '@geist-ui/react-icons'
+
+import * as Icons from 'react-feather';
+
 
 function MyDropzone() {
   const onDrop = useCallback((acceptedFiles) => {
@@ -23,6 +27,7 @@ function MyDropzone() {
 
   return (
     <div {...getRootProps()}>
+
         <input {...getInputProps()} />
         {/*Input above needs to stay, can use any component below, image, paragraph... */}
         <Card width="400px">
@@ -38,7 +43,13 @@ function MyDropzone() {
             </Row>
 
         </Card>
+      <input {...getInputProps()} />
+      <p>Drag 'n' drop some files here, or click to select files</p>
+      <Button iconRight={<Icons.File size={16} />} auto size="small" />
+
+
     </div>
+    
   )
 };
 
