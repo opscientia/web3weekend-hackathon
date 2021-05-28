@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
-import { Card, Image, Text } from '@geist-ui/react';
+import { Card, Image, Text, Row, Col } from '@geist-ui/react';
+import { Upload } from '@geist-ui/react-icons'
 
 function MyDropzone() {
   const onDrop = useCallback((acceptedFiles) => {
@@ -25,9 +26,17 @@ function MyDropzone() {
         <input {...getInputProps()} />
         {/*Input above needs to stay, can use any component below, image, paragraph... */}
         <Card width="400px">
-            <Image src="https://user-images.githubusercontent.com/11304944/76085431-fd036480-5fec-11ea-8412-9e581425344a.png"
-            height="200" width="400" style={{ objectFit: 'cover' }} />
-            <Text type="primary" medium>Drag 'n' drop some files here, or click to select files</Text>
+            <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
+                <Col span={4}>
+                    <Upload size={40}/>
+                </Col>
+            </Row>
+            <Row gap={0.8} justify="center" style={{ marginBottom: '15px' }}>
+                <Col span={20}>
+                    <Text type="primary" medium>Drag 'n' drop some files here, or click to select files</Text>
+                </Col>
+            </Row>
+
         </Card>
     </div>
   )
