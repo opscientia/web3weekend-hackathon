@@ -1,8 +1,9 @@
 import React from 'react';
-import { GeistUIThemes, Text, Link } from '@geist-ui/react';
+import { GeistUIThemes, Text, Link, Card } from '@geist-ui/react';
 import makeStyles from './makeStyles';
 import EventListItem from './EventListItem.js';
 import ProjectCard from './ProjectCard';
+import MyDropzone from './MyDropzone'
 
 const useStyles = makeStyles((ui) => ({
   root: {
@@ -72,43 +73,7 @@ const Content = () => {
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <div className={classes.row}>
-          <div className={classes.projects}>
-            <ProjectCard projectId="react-dashboard-design" repo="ofekashery/react-dashboard-design" created="4m" />
-            <ProjectCard projectId="personal-website" repo="ofekashery/personal-website" created="2d" />
-            <ProjectCard projectId="docs" repo="github/docs" created="5d" />
-            <Text className={classes.viewAll}>
-              <Link color pure>
-                View All Projects
-              </Link>
-            </Text>
-          </div>
-          <div className={classes.activity}>
-            <Text h2 className={classes.activityTitle}>
-              Recent Activity
-            </Text>
-            <EventListItem username="ofekashery" avatar="/assets/avatar.png" created="4m">
-              You deployed react-dashboard-design to <b>production</b>
-            </EventListItem>
-            <EventListItem username="dependabot" avatar="/assets/dependabot.png" created="2d">
-              Dependabot deployed docs to <b>docs-git-dependabot-npmelliptic-653.vercel.app</b>
-            </EventListItem>
-            <EventListItem username="ofekashery" avatar="/assets/avatar.png" created="3d">
-              You deployed personal-website to <b>production</b>
-            </EventListItem>
-            <EventListItem username="ofekashery" avatar="/assets/avatar.png" created="9d">
-              You deployed personal-website to <b>production</b>
-            </EventListItem>
-            <EventListItem username="ofekashery" avatar="/assets/avatar.png" created="9d">
-              You created project <b>personal-website</b>
-            </EventListItem>
-            <Text className={classes.viewAll}>
-              <Link color pure>
-                View All Activity
-              </Link>
-            </Text>
-          </div>
-        </div>
+        <MyDropzone />
       </div>
     </div>
   );
