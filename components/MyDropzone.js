@@ -1,6 +1,8 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
-import { Button } from '@geist-ui/react';
+
+import { Card,Image,Button ,Text, Row, Col } from '@geist-ui/react';
+
 import * as Icons from 'react-feather';
 
 function MyDropzone() {
