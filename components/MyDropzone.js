@@ -1,5 +1,7 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
+import { Button } from '@geist-ui/react';
+import * as Icons from 'react-feather';
 
 function MyDropzone() {
   const onDrop = useCallback((acceptedFiles) => {
@@ -23,7 +25,10 @@ function MyDropzone() {
     <div {...getRootProps()}>
       <input {...getInputProps()} />
       <p>Drag 'n' drop some files here, or click to select files</p>
+      <Button iconRight={<Icons.File size={16} />} auto size="small" />
+
     </div>
+    
   )
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import Link from 'next/link';
 import {useRouter} from 'next/router'
-import { GeistUIThemes, Avatar, Button, Tabs, useTheme, Popover, Link } from '@geist-ui/react';
+import { Text,GeistUIThemes, Avatar, Button, Tabs, useTheme, Popover, Link } from '@geist-ui/react';
 import makeStyles from './makeStyles';
 import * as Icons from 'react-feather';
 
@@ -131,7 +131,7 @@ const Menu = ({ toggleDarkMode }) => {
       <div className={classes.header}>
         <div className={classes.headerContent}>
           <div style={{ display: 'flex' }}>
-            <div className={classes.headerTitle}> Next.js Dashboard</div>
+            <div className={classes.headerTitle}> <Text h3>OpsciBay  &nbsp;</Text>  Dashboard</div>
           </div>
           <div className={classes.sidebar}>
             <Button
