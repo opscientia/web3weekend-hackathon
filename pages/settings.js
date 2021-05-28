@@ -1,13 +1,12 @@
 import Layout from '../components/Layout';
-import Dashboard from '../components/Dashboard'
+import Settings from '../components/Settings';
 import { JssProvider } from 'react-jss';
-const Home = (props) => {
-
+const SettingsPage = (props) => {
   
     return (
         <JssProvider id={{ minify: true }}>
         <Layout toggleDarkMode={props.toggleDarkMode}>
-            <Dashboard/>
+        <Settings/>
         </Layout>
         </JssProvider>
     )
@@ -15,4 +14,4 @@ const Home = (props) => {
     
     
   
-  export default Home;
+  export default SettingsPage;
