@@ -3,7 +3,7 @@ import useDomClean from '../lib/use-dom-clean'
 import { GeistProvider, CssBaseline, useTheme } from '@geist-ui/react'
 import {getDefaultProvider, Web3Provider} from "@ethersproject/providers";
 import dynamic from "next/dynamic";
-import {generateSignature} from "../lib/signerConnect"
+import {generateSignature} from "../lib/signerconnect"
 
 // const getDefaultTheme = () =>
 //   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';

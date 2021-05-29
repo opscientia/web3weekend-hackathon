@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { GeistUIThemes, Avatar, Button, Text, Link } from '@geist-ui/react';
+import React from 'react';
 import makeStyles from './makeStyles';
-import * as Icons from 'react-feather';
-import ProfileCard from './Profile/ProfileCard';
+import ProfileCard from './profile/ProfileCard';
 
 const useStyles = makeStyles((ui) => ({
   root: {
@@ -17,55 +15,10 @@ const useStyles = makeStyles((ui) => ({
     boxSizing: 'border-box',
     margin: '0 auto'
   },
-  avatar: {
-    width: '100px !important',
-    height: '100px !important',
-    marginRight: '30px !important'
-  },
-  name: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flex: 1
-  },
-  title: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  username: {
-    lineHeight: 1
-  },
-  createProjectButton: {},
-  [`@media screen and (max-width: ${ui.layout.pageWidthWithMargin})`]: {
-    createProjectButton: {
-      display: 'none !important'
-    },
-    avatar: {
-      width: '80px !important',
-      height: '80px !important',
-      marginRight: '20px !important'
-    },
-    username: {
-      fontSize: 24,
-    },
-  },
   projects: {
     width: 540,
     maxWidth: '100%',
     marginRight: 80,
-    
-  },
-  integrationsTitle: {
-    textTransform: 'uppercase',
-    color: `${ui.palette.accents_5} !important`,
-    fontWeight: 500,
-    fontSize: 12,
-    margin: 0
-  },
-  integrationsUsername: {
-    margin: '0 0 0 4px',
-    fontWeight: 0
   }
 }));
 
@@ -73,28 +26,6 @@ const Profile = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <div className={classes.content}>
-        <Avatar alt="Your Avatar" className={classes.avatar} src="/assets/Opscientia.png" />
-        <div className={classes.name}>
-          <div className={classes.title}>
-            <Text h2 className={classes.username}>
-            Opscientia
-            </Text>
-            <Button className={classes.createProjectButton} type="secondary" auto>
-              Edit Profile
-            </Button>
-          </div>
-          <div>
-            <Text className={classes.integrationsTitle}>Git Integrations</Text>
-            <Link href="https://github.com/Opscientia" target="_blank" rel="noopener" pure underline>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Icons.GitHub size={16} aria-label="Github" />
-                <Text className={classes.integrationsUsername}>Opscientia</Text>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
       <div className={classes.content}>
         <div className={classes.projects}>
           <ProfileCard
@@ -105,9 +36,6 @@ const Profile = () => {
         </div>
       </div>
       </div>
-    
-    
-    
   );
 };
 

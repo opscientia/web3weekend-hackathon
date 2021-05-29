@@ -1,11 +1,9 @@
-import React, {useCallback} from 'react'
+import React from 'react'
 import {useDropzone} from 'react-dropzone'
 
 
-import { Card,Image,Button ,Text, Row, Col } from '@geist-ui/react';
+import { Card,Text, Row, Col } from '@geist-ui/react';
 import {Upload} from '@geist-ui/react-icons'
-
-import * as Icons from 'react-feather';
 
 
 function MyDropzone(props) {
@@ -23,20 +21,22 @@ function MyDropzone(props) {
 
         <input {...getInputProps()} />
         {/*Input above needs to stay, can use any component below, image, paragraph... */}
-        <Card  hoverable width="1000px">
+
+        <Card hoverable width="100%">
+
             <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
-                <Col span={4}>
+                <Col span={1.5}>
                     <Upload size={40}/>
                 </Col>
             </Row>
             <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
                 <Col span={30}>
-                    <Text type="primary" align="center"  medium><b>Drag 'n' Drop files here or Click to select Files</b></Text>
-                      <Button iconRight={<Icons.File size={16} />} auto size="small" />
+                    <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
+                    <Text type="primary" align="center"  medium><b>or</b></Text>
+                    <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
                 </Col>
             </Row>
             <aside>
-        <h4>Files</h4>
         <ul>{files}</ul>
       </aside>
         </Card>
