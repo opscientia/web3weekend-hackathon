@@ -144,6 +144,10 @@ const Menu = ({ toggleDarkMode, connectUser, provider }) => {
             >
               {isDark ? <Icons.Sun size={16} /> : <Icons.Moon size={16} />}
             </Button>
+           
+            <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
+              <Avatar text="CL" />
+            </Popover>
             <Button
               auto
               type='abort'
@@ -151,9 +155,6 @@ const Menu = ({ toggleDarkMode, connectUser, provider }) => {
             >
             {provider ?  "Disconnect" : "Connect" }
             </Button>
-            <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
-              <Avatar text="CL" />
-            </Popover>
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@ function MyDropzone(props) {
 
         <input {...getInputProps()} />
         {/*Input above needs to stay, can use any component below, image, paragraph... */}
-        <Card  hoverable width="600px">
+        <Card  hoverable width="1000px">
             <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
                 <Col span={4}>
                     <Upload size={40}/>

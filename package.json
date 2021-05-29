@@ -8,10 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/stylis": "^0.8.5",
+    "@ethersproject/abi": "^5.2.0",
     "@ethersproject/providers": "^5.2.0",
     "@geist-ui/react": "^2.1.5",
     "@geist-ui/react-icons": "^1.0.1",
     "bcryptjs": "^2.4.3",
+    "bech32": "^1.1.4",
+    "emotion": "^11.0.0",
     "ethers": "^5.2.0",
     "next": "^10.2.3",
     "react": "16.13.1",
@@ -19,6 +23,7 @@
     "react-dropzone": "^11.3.2",
     "react-feather": "^2.0.9",
     "react-jss": "^10.5.1",
+    "scrypt-js": "^3.0.1",
     "styled-jsx": "^3.2.5",
     "web3modal": "^1.9.3"
   }
