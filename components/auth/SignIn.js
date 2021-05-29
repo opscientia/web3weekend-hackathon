@@ -11,7 +11,6 @@ function SignIn() {
   };
 
   return (
-    <>
       <Modal open={modal} onClose={closeHandler}>
         <Modal.Title>Sign up </Modal.Title>
 
