@@ -13,11 +13,7 @@ function SignIn() {
   return (
     <>
       <Modal open={modal} onClose={closeHandler}>
-<<<<<<< HEAD
         <Modal.Title>Sign up </Modal.Title>
-=======
-        <Modal.Title>Sign In</Modal.Title>
->>>>>>> added tagging
 
         <Modal.Content>
           <div className={classes.form}>

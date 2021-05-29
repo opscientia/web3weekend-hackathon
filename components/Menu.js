@@ -133,20 +133,6 @@ const Menu = ({ connectUser, provider }) => {
           </div>
           <div className={classes.sidebar}>
             <Button
-              aria-label="Toggle Dark mode"
-              className={classes.themeIcon}
-              auto
-              type="abort"
-              onClick={toggleDarkMode}
-            >
-            {provider ?  provider.address : "Connect" }
-            </Button>
-            <Text>did:3:gafyreideiwcju2cwecccxesr7woyufadeot67ifhrn7kuefmlqpqgrloeq &nbsp;</Text>
-            <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
-              <Avatar src="/assets/dependabot.png" />
-            </Popover>
-            <Button
-
               auto
               type='abort'
               onClick={connectUser}
