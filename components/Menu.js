@@ -132,18 +132,10 @@ const Menu = ({ toggleDarkMode, connectUser, provider }) => {
       <div className={classes.header}>
         <div className={classes.headerContent}>
           <div style={{ display: 'flex' }}>
+            <Avatar alt="Your Avatar" className={classes.avatar} src="/assets/Opscientia.png" />
             <div className={classes.headerTitle}> <Text h3>OpsciBay  &nbsp;</Text></div>
           </div>
           <div className={classes.sidebar}>
-            <Button
-              aria-label="Toggle Dark mode"
-              className={classes.themeIcon}
-              auto
-              type="abort"
-              onClick={toggleDarkMode}
-            >
-              {isDark ? <Icons.Sun size={16} /> : <Icons.Moon size={16} />}
-            </Button>
             <Button
               auto
               type='abort'

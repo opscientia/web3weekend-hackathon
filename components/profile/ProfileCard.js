@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import {
-  GeistUIThemes,
   Button,
   Text,
   Link,
   Card,
   Dot,
-  Tag,
-  User,
-  Input,
+  Tag
 } from '@geist-ui/react';
 import AddressModal from './AddressModal';
 import makeStyles from '../makeStyles';
@@ -96,7 +93,7 @@ const useStyles = makeStyles((ui) => ({
   },
 }));
 
-const ProfileCard = ({ heading, created, repo, icon, address, name }) => {
+const ProfileCard = ({ heading, address }) => {
   const [modal, setModal] = useState(false);
   const classes = useStyles();
   return (

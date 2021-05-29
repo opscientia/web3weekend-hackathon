@@ -1,5 +1,4 @@
 import React from 'react';
-import { GeistUIThemes, Text, Link, Image } from '@geist-ui/react';
 import makeStyles from './makeStyles';
 
 const useStyles = makeStyles((ui) => ({
@@ -26,16 +25,7 @@ const useStyles = makeStyles((ui) => ({
 const Footer = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Image className={classes.logo} src="/assets/geist.png" width={32} height={32} title="Geist Logo" />
-      <Text>
-        Made with{' '}
-        <Link href="https://github.com/geist-org" target="_blank" rel="noopener" pure underline>
-          Geist
-        </Link>
-        .
-      </Text>
-    </div>
+    <div className={classes.root} />
   );
 };
 
