@@ -1,6 +1,6 @@
 import React from 'react';
 import makeStyles from './makeStyles';
-import ProfileCard from './Profile/ProfileCard';
+import ProfileCard from './profile/ProfileCard';
 
 const useStyles = makeStyles((ui) => ({
   root: {
