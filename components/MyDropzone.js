@@ -289,6 +289,7 @@ class MyDropzone extends React.Component {
                 <div className="dropzone" {...getRootProps()}>
                   <input {...getInputProps()} />
                       <Card hoverable width="100%">
+<<<<<<< HEAD
                         {(this.state.loadingMessage === null) &&
                         <>
                         <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
@@ -326,6 +327,22 @@ class MyDropzone extends React.Component {
                           </Col>
                         </Row>
                         </>}
+=======
+                          <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
+                              <Col span={1.5}>
+                                  <Upload size={40}/>
+                              </Col>
+                          </Row>
+                          <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+                              <Col span={30}>
+                                  <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
+                                  <Text type="primary" align="center"  medium><b>or</b></Text>
+                                  <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
+                              </Col>
+                          </Row>
+                          <aside>
+                    </aside>
+>>>>>>> add form
                       </Card>
                 </div>
               )}
@@ -336,4 +353,8 @@ class MyDropzone extends React.Component {
   }
 }
 
+<<<<<<< HEAD
 export default MyDropzone;
+=======
+export default MyDropzone;
+>>>>>>> add form
