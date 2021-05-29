@@ -153,6 +153,10 @@ const Menu = ({ connectUser, provider }) => {
             >
             {provider ?  "Disconnect" : "Connect" }
             </Button>
+            <Text>did:3:gafyreideiwcju2cwecccxesr7woyufadeot67ifhrn7kuefmlqpqgrloeq &nbsp;</Text>
+            <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
+              <Avatar src="/assets/dependabot.png" />
+            </Popover>
           </div>
         </div>
       </div>

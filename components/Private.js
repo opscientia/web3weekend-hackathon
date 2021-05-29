@@ -1,6 +1,7 @@
 import React from 'react';
+import { Grid, Text } from '@geist-ui/react';
 import makeStyles from './makeStyles';
-import ProfileCard from './profile/ProfileCard';
+import DataCard from './DataCard';
 
 const useStyles = makeStyles((ui) => ({
   root: {
@@ -14,28 +15,25 @@ const useStyles = makeStyles((ui) => ({
     padding: `calc(${ui.layout.gap} * 2) ${ui.layout.pageMargin} calc(${ui.layout.gap} * 4)`,
     boxSizing: 'border-box',
     margin: '0 auto'
-  },
-  projects: {
-    width: 540,
-    maxWidth: '100%',
-    marginRight: 80,
-  }
-}));
+  }}))
 
-const Private = () => {
+const Private = (props) => {
   const classes = useStyles();
+  const myData = props.myData.mockData;
+  const accessData = props.accessData.mockData;
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <div className={classes.projects}>
-          <ProfileCard
-            heading='Your DID'
-            address='did:3:gafyreideiwcju2cwecccxesr7woyufadeot67ifhrn7kuefmlqpqgrloeq'
-            name='3BOX'
-          />
-        </div>
+        <Grid.Container gap={2} justify="center">
+        <Text h3>My Datasets:</Text>
+        {myData.map((e) => {return (<Grid xs={22}><DataCard data={e}/></Grid>)})}
+        </Grid.Container>
+        <Grid.Container gap={2} justify="center">
+        <Text h3>Private Access Datasets:</Text>
+        {accessData.map((e) => {return (<Grid xs={22}><DataCard data={e}/></Grid>)})}
+        </Grid.Container>
       </div>
-      </div>
+    </div>
   );
 };
 
