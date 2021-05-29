@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GeistUIThemes, Avatar, Button, Text, Link } from '@geist-ui/react';
 import makeStyles from './makeStyles';
 import * as Icons from 'react-feather';
+import ProfileCard from './Profile/ProfileCard';
 
 const useStyles = makeStyles((ui) => ({
   root: {
@@ -46,8 +47,14 @@ const useStyles = makeStyles((ui) => ({
       marginRight: '20px !important'
     },
     username: {
-      fontSize: 24
-    }
+      fontSize: 24,
+    },
+  },
+  projects: {
+    width: 540,
+    maxWidth: '100%',
+    marginRight: 80,
+    
   },
   integrationsTitle: {
     textTransform: 'uppercase',
@@ -74,7 +81,7 @@ const Profile = () => {
             Opscientia
             </Text>
             <Button className={classes.createProjectButton} type="secondary" auto>
-              Update Profile
+              Edit Profile
             </Button>
           </div>
           <div>
@@ -88,7 +95,19 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </div>
+      <div className={classes.content}>
+        <div className={classes.projects}>
+          <ProfileCard
+            heading='Your DID'
+            address='did:3:gafyreideiwcju2cwecccxesr7woyufadeot67ifhrn7kuefmlqpqgrloeq'
+            name='3BOX'
+          />
+        </div>
+      </div>
+      </div>
+    
+    
+    
   );
 };
 
