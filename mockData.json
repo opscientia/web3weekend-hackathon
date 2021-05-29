@@ -5,7 +5,7 @@
     "BIDSVersion": "1.0.2",
     "License": "PDDL",
     "Authors": ["Elizabeth DuPre", "Wen-Ming Luh", "R. Nathan Spreng"],
-    "Tags": ["Brains", "Alzheimer's"]
+    "Tags": ["Brains", "fMRI"]
 },
 {
     "Name": "ASL_Philips_PCASL_2DEPI",
