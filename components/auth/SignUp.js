@@ -20,8 +20,11 @@ const useStyles = makeStyles((ui) => ({
 
 function SignUp({ modal, setModal }) {
   const [email, setEmail] = useState('');
+<<<<<<< HEAD
   console.log('EMAIL', email);
   //    const [modal, setModal] = useState(true);
+=======
+>>>>>>> added tagging
   const closeHandler = (event) => {
     setModal(false);
   };
@@ -29,7 +32,11 @@ function SignUp({ modal, setModal }) {
   return (
     <>
       <Modal open={modal} onClose={closeHandler}>
+<<<<<<< HEAD
         <Modal.Title>Sign up </Modal.Title>
+=======
+        <Modal.Title>Sign Up</Modal.Title>
+>>>>>>> added tagging
 
         <Modal.Content>
           <div className={classes.form}>

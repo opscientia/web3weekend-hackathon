@@ -4,7 +4,8 @@
     "Name": "Multi-echo fMRI replication sample of \nautobiographical memory, prospection and \ntheory of mind reasoning tasks", 
     "BIDSVersion": "1.0.2",
     "License": "PDDL",
-    "Authors": ["Elizabeth DuPre", "Wen-Ming Luh", "R. Nathan Spreng"] 
+    "Authors": ["Elizabeth DuPre", "Wen-Ming Luh", "R. Nathan Spreng"],
+    "Tags": ["Brains", "Alzheimer's"]
 },
 {
     "Name": "ASL_Philips_PCASL_2DEPI",
@@ -15,7 +16,8 @@
         "David L. Thomas"
     ],
     "HowToAcknowledge": "If you reference this dataset in your publications, please acknowledge its authors.",
-    "EthicsApprovals": ["This original study from which this BIDS example dataset was derived was approved by the local ethics committee as protocol optimisation procedures"]
+    "EthicsApprovals": ["This original study from which this BIDS example dataset was derived was approved by the local ethics committee as protocol optimisation procedures"],
+    "Tags": ["Neuroimaging"]
 },
 {
     "BIDSVersion":"1.0.0",
@@ -28,7 +30,8 @@
     ],
     "ReferencesAndLinks":[
       "Aron, A.R., Gluck, M.A., Poldrack, R.A. (2006). Long-term test-retest reliability of functional MRI in a classification learning task. Neuroimage, 29(3):1000-6"
-    ]
+    ],
+    "Tags": ["Neuroimaging"]
 }
 
 ]

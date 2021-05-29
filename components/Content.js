@@ -1,8 +1,6 @@
 import React, { useState }  from 'react';
-import { GeistUIThemes, Text, Link, Card, Button, Select } from '@geist-ui/react';
+import { Button } from '@geist-ui/react';
 import makeStyles from './makeStyles';
-import EventListItem from './EventListItem.js';
-import ProjectCard from './ProjectCard';
 import MyDropzone from './MyDropzone'
 import SignUp from './auth/SignUp';
 
