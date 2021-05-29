@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Text, Divider } from '@geist-ui/react';
+import { Card, Text, Divider, Button, Spacer } from '@geist-ui/react';
 
 function DataCard(props) {
     return (
@@ -10,6 +10,10 @@ function DataCard(props) {
         <Divider y={0} />
         <Card.Content>
             <Text>{props.data.Authors}</Text>
+        </Card.Content>
+        <Divider y={0} />
+        <Card.Content>
+            {props.data.Tags.map((e => <div><Button size="mini">{e}</Button> <Spacer y={.5} /></div>))}    
         </Card.Content>
         </Card>
     )

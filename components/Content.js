@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { Button } from '@geist-ui/react';
 import makeStyles from './makeStyles';
-import MyDropzone from './MyDropzone'
+import MyDropzone from './MyDropzone';
+import SignUp from './auth/SignUp';
+import * as Icons from 'react-feather';
 
 const useStyles = makeStyles((ui) => ({
   root: {
@@ -66,12 +69,24 @@ const useStyles = makeStyles((ui) => ({
 }));
 
 const Content = () => {
+  const [modal, setModal] = useState(true);
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <div className={classes.content}>
         <MyDropzone />
+        <SignUp modal={modal} setModal={setModal} />
       </div>
+      <Button
+        className={classes.addressButton}
+        size='small'
+        auto
+        icon={<Icons.Plus />}
+        type='secondary'
+        onClick={() => setModal(true)}
+      >
+        Signup test Modal
+      </Button>
     </div>
   );
 };
