@@ -138,7 +138,6 @@ const Menu = ({ connectUser, provider }) => {
             >
             {provider ? provider.address : "Connect" }
             </Button>
-            <Text>did:Something &nbsp;</Text>
             <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
               <Avatar src="/assets/dependabot.png" />
             </Popover>
