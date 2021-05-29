@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Modal, Input } from '@geist-ui/react';
+import { Modal, Input } from '@geist-ui/react';
 import * as Icons from 'react-feather';
-import makeStyles from '../makeStyles';
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -11,7 +10,6 @@ function SignIn() {
   };
 
   return (
-    <>
       <Modal open={modal} onClose={closeHandler}>
         <Modal.Title>Sign up </Modal.Title>
 
@@ -35,7 +33,6 @@ function SignIn() {
           Sign in
         </Modal.Action>
       </Modal>
-    </>
   );
 }
 

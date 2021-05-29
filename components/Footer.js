@@ -11,7 +11,6 @@ const useStyles = makeStyles((ui) => ({
     alignItems: 'center'
   },
   logo: {
-    // border: `1px solid ${ui.palette.accents_2}`,
     borderRadius: '50% !important',
     margin: '0 6px 0 0 !important'
   },

@@ -1,8 +1,6 @@
 import React, { useState }  from 'react';
-import { GeistUIThemes, Text, Link, Card, Button, Select } from '@geist-ui/react';
+import { Button } from '@geist-ui/react';
 import makeStyles from './makeStyles';
-import EventListItem from './EventListItem.js';
-import ProjectCard from './ProjectCard';
 import MyDropzone from './MyDropzone'
 import SignUp from './auth/SignUp';
 
@@ -88,95 +86,19 @@ const Content = () => {
     <div className={classes.root}>
       <div className={classes.content}>
         <MyDropzone />
-        </div>
-        <>
-      {/* testing purpose */}
-      <SignUp modal={modal} setModal={setModal} />
-      <div className={classes.root}>
-        <div className={classes.content}>
-          <Text h3>Public Datasets</Text>
-          <div className={classes.row}>
-            <div className={classes.projects}>
-              <ProjectCard
-                name='Koushith A.'
-                dataset='A beautiful mind.bids'
-                email='koushith97@gmail.com'
-              />
-              <ProjectCard
-                name='Alexandar graham bell'
-                dataset='Sound of water.bids'
-                email='Alexa92237@gmail.com'
-              />
-              <ProjectCard
-                name='Thomas Edison'
-                dataset='In a place called heaven.bids'
-                email='Heaven224@gmail.com'
-              />
-            </div>
-
-            {/* right- */}
-
-            <div className={classes.activity}>
-              <Text h2 className={classes.inviteHeading}>
-                Search User
-              </Text>
-              <div className={classes.invite}>
-                <Select placeholder='Choose one' style={{ width: '250px' }}>
-                  <Select.Option value='1'>Option 1</Select.Option>
-                  <Select.Option value='2'>Option 2</Select.Option>
-                </Select>
-                <Button
-                  size='small'
-                  auto
-                  icon={<Icons.Plus />}
-                  type='secondary'
-                >
-                  Request
-                </Button>
-              </div>
-
-              <Text h2 className={classes.activityTitle}>
-                Recent Activity
-              </Text>
-
-              <EventListItem
-                username='ofekashery'
-                avatar='/assets/avatar.png'
-                created='3d'
-              >
-                Requested <b>Koushith's</b> dataset access.
-              </EventListItem>
-
-              <EventListItem
-                username='ofekashery'
-                avatar='/assets/avatar.png'
-                created='9d'
-              >
-                Requested <b>Thomas's</b> dataset access.
-              </EventListItem>
-              <Text className={classes.viewAll}>
-                <Link color>View My Dataset Access Request lists</Link>
-              </Text>
-            {/* remove this btn while integrating */}
-            <Button
-                className={classes.addressButton}
-                size='small'
-                auto
-                icon={<Icons.Plus />}
-                type='secondary'
-                onClick={() => setModal(true)}
-              >
-                Signup test Modal
-              </Button>
-            </div>
-          </div>
-        </div>
+        <SignUp modal={modal} setModal={setModal} />
       </div>
-    </>
-    
-      
-      </div>
-     
+      <Button
+        className={classes.addressButton}
+        size='small'
+        auto
+        icon={<Icons.Plus />}
+        type='secondary'
+        onClick={() => setModal(true)}
+      >
+        Signup test Modal
+      </Button>
+    </div>
   );
 };
 

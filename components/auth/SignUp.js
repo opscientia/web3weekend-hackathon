@@ -20,8 +20,6 @@ const useStyles = makeStyles((ui) => ({
 
 function SignUp({ modal, setModal }) {
   const [email, setEmail] = useState('');
-  console.log('EMAIL', email);
-  //    const [modal, setModal] = useState(true);
   const closeHandler = (event) => {
     setModal(false);
   };
