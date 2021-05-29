@@ -6,8 +6,7 @@ const Home = (props) => {
   
     return (
         <JssProvider id={{ minify: true }}>
-        <Layout toggleDarkMode={props.toggleDarkMode}>
-            <Dashboard/>
+<Layout toggleDarkMode={props.toggleDarkMode} connectUser={props.connectUser} provider={props.provider}>            <Dashboard/>
         </Layout>
         </JssProvider>
     )

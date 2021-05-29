@@ -5,6 +5,7 @@ import { Text,GeistUIThemes, Avatar, Button, Tabs, useTheme, Popover, Link } fro
 import makeStyles from './makeStyles';
 import * as Icons from 'react-feather';
 
+
 const useStyles = makeStyles((ui) => ({
   header: {
     width: ui.layout.pageWidthWithMargin,
@@ -13,14 +14,14 @@ const useStyles = makeStyles((ui) => ({
     backgroundColor: ui.palette.background,
     fontSize: 16,
     height: 60,
-    zIndex: 15
+    zIndex: 15,
   },
   headerContent: {
     height: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: `0 ${ui.layout.pageMargin}`
+    padding: `0 ${ui.layout.pageMargin}`,
   },
   headerTitle: {
     fontWeight: 500,
@@ -37,7 +38,7 @@ const useStyles = makeStyles((ui) => ({
   },
   navFixed: {
     borderBottom: ui.type === 'light' && 'none',
-    boxShadow: ui.type === 'light' && 'rgba(0, 0, 0, 0.1) 0 0 15px 0'
+    boxShadow: ui.type === 'light' && 'rgba(0, 0, 0, 0.1) 0 0 15px 0',
   },
   navContent: {
     width: ui.layout.pageWidthWithMargin,
@@ -67,7 +68,7 @@ const useStyles = makeStyles((ui) => ({
   },
   sidebar: {
     display: 'flex',
-    alignItems: 'center !important'
+    alignItems: 'center !important',
   },
   themeIcon: {
     width: '40px !important',
@@ -76,7 +77,7 @@ const useStyles = makeStyles((ui) => ({
     justifyContent: 'center !important',
     alignItems: 'center !important',
     marginRight: 5,
-    padding: '0 !important'
+    padding: '0 !important',
   },
   popover: {
     width: '180px !important'
@@ -101,14 +102,14 @@ const popoverContent = () => (
   </>
 );
 
-const Menu = ({ toggleDarkMode }) => {
-  console.log(toggleDarkMode)
+const Menu = ({ toggleDarkMode, connectUser, provider }) => {
+  console.log(provider)
   const classes = useStyles();
   const theme = useTheme();
-  const router = useRouter()
+  const router = useRouter();
   const [fixed, setFixed] = useState(false);
-  const [tab, setTab] = useState(router.pathname)
-  console.log(tab)
+  const [tab, setTab] = useState(router.pathname);
+  console.log(tab);
   const isDark = theme.type === 'dark';
 
   useEffect(() => {
@@ -122,8 +123,8 @@ const Menu = ({ toggleDarkMode }) => {
 
   const changeTab = (val) => {
 
-    router.push(val)
-    setTab(val)
+    router.push(val);
+    setTab(val);
   }
 
   return (
@@ -131,7 +132,7 @@ const Menu = ({ toggleDarkMode }) => {
       <div className={classes.header}>
         <div className={classes.headerContent}>
           <div style={{ display: 'flex' }}>
-            <div className={classes.headerTitle}> <Text h3>OpsciBay  &nbsp;</Text>  Dashboard</div>
+            <div className={classes.headerTitle}> <Text h3>OpsciBay  &nbsp;</Text></div>
           </div>
           <div className={classes.sidebar}>
             <Button
@@ -142,6 +143,13 @@ const Menu = ({ toggleDarkMode }) => {
               onClick={toggleDarkMode}
             >
               {isDark ? <Icons.Sun size={16} /> : <Icons.Moon size={16} />}
+            </Button>
+            <Button
+              auto
+              type='abort'
+              onClick={connectUser}
+            >
+            {provider ?  "Disconnect" : "Connect" }
             </Button>
             <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
               <Avatar text="CL" />
