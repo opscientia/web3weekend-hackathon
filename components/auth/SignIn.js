@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Modal, Input } from '@geist-ui/react';
+import { Modal, Input } from '@geist-ui/react';
 import * as Icons from 'react-feather';
-import makeStyles from '../makeStyles';
 
 function SignIn() {
   const [email, setEmail] = useState('');

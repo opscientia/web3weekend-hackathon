@@ -101,7 +101,6 @@ const popoverContent = () => (
 );
 
 const Menu = ({ connectUser, provider }) => {
-  console.log(provider)
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -137,7 +136,7 @@ const Menu = ({ connectUser, provider }) => {
               type='abort'
               onClick={connectUser}
             >
-            {provider ?  "Disconnect" : "Connect" }
+            {provider ? provider.address : "Connect" }
             </Button>
             <Text>did:3:gafyreideiwcju2cwecccxesr7woyufadeot67ifhrn7kuefmlqpqgrloeq &nbsp;</Text>
             <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
