@@ -1,13 +1,13 @@
 import Layout from '../components/Layout';
 import { JssProvider } from 'react-jss';
-import Profile from '../components/Private';
+import Private from '../components/Private';
 
-const PrivatePage = (props) => {
-  
+const PrivatePage = () => {
+    const mockData = require('./../mockData.json');
     return (
         <JssProvider id={{ minify: true }}>
             <Layout>
-                <Profile />
+                <Private myData={{mockData}} accessData={{mockData}}/>
             </Layout>
         </JssProvider>
     )

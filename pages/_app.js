@@ -7,7 +7,6 @@ function MyApp({ Component, pageProps }) {
   const [provider, setProvider] = useState(null);
 
   const connectUser = async () => {
-    console.log('connect')
     const {seed, metamask} = await generateSignature();
     setProvider(metamask)
   }
