@@ -52,7 +52,7 @@ function SignUp({ modal, setModal }) {
         <Modal.Action passive onClick={() => setModal(false)}>
           Cancel
         </Modal.Action>
-        <Modal.Action onClick={() => console.log('CLICKED')} loading={true}>
+        <Modal.Action onClick={() => console.log('CLICKED')} >
           Submit
         </Modal.Action>
       </Modal>
