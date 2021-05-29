@@ -13,6 +13,7 @@
     "@ethersproject/providers": "^5.2.0",
     "@geist-ui/react": "^2.1.5",
     "@geist-ui/react-icons": "^1.0.1",
+    "@textile/hub": "^6.1.2",
     "bcryptjs": "^2.4.3",
     "bech32": "^1.1.4",
     "emotion": "^11.0.0",
