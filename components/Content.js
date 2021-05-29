@@ -86,7 +86,7 @@ const Content = () => {
     <div className={classes.root}>
       <div className={classes.content}>
         <MyDropzone />
-        <SignUp modal={modal} setModal={setModal} />
+      
       </div>
       <Button
         className={classes.addressButton}
