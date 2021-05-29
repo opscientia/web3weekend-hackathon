@@ -1,8 +1,5 @@
 import React from 'react';
-import { GeistUIThemes, Text, Link, Card } from '@geist-ui/react';
 import makeStyles from './makeStyles';
-import EventListItem from './EventListItem.js';
-import ProjectCard from './ProjectCard';
 import MyDropzone from './MyDropzone'
 
 const useStyles = makeStyles((ui) => ({

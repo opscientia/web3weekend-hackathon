@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// import Link from 'next/link';
 import {useRouter} from 'next/router'
 import { Text,GeistUIThemes, Avatar, Button, Tabs, useTheme, Popover, Link } from '@geist-ui/react';
 import makeStyles from './makeStyles';
-import * as Icons from 'react-feather';
 
 
 const useStyles = makeStyles((ui) => ({
@@ -102,15 +100,13 @@ const popoverContent = () => (
   </>
 );
 
-const Menu = ({ toggleDarkMode, connectUser, provider }) => {
+const Menu = ({ connectUser, provider }) => {
   console.log(provider)
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
   const [fixed, setFixed] = useState(false);
   const [tab, setTab] = useState(router.pathname);
-  console.log(tab);
-  const isDark = theme.type === 'dark';
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -152,9 +148,9 @@ const Menu = ({ toggleDarkMode, connectUser, provider }) => {
       <nav className={classes.nav + ' ' + (fixed ? classes.navFixed : '')}>
         <div className={classes.navContent}>
           <Tabs initialValue={tab} onChange={ (val) => {changeTab(val)}}>
-            <Tabs.Item label="Overview" value="/" />
-            <Tabs.Item label="Profile" value="/profile" />
-            <Tabs.Item label="Settings" value="/settings" />
+            <Tabs.Item label="Upload" value="/" />
+            <Tabs.Item label="Public" value="/public" />
+            <Tabs.Item label="Private" value="/private" />
           </Tabs>
         </div>
       </nav>
