@@ -3,13 +3,13 @@ import { Card, Text, Divider, Button, Spacer } from '@geist-ui/react';
 
 function DataCard(props) {
     return (
-        <Card width="400px" hoverable>
+        <Card width="100%" hoverable>
         <Card.Content>
             <Text b>{props.data.Name}</Text>
         </Card.Content>
         <Divider y={0} />
         <Card.Content>
-            <Text>{props.data.Authors}</Text>
+            {props.data.Authors.map((e => <Text>{e}</Text>))} 
         </Card.Content>
         <Divider y={0} />
         <Card.Content>
