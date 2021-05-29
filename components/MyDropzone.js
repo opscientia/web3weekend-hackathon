@@ -6,7 +6,7 @@ import { Buckets, PushPathResult, KeyInfo, PrivateKey, WithKeyInfoOptions } from
 
 import {getMetamaskIdentity} from '../lib/signerconnect'
 
-import { Card,Text, Row, Col } from '@geist-ui/react';
+import { Card,Text, Row, Col, Loading } from '@geist-ui/react';
 import {Upload} from '@geist-ui/react-icons'
 
 
@@ -26,8 +26,10 @@ class MyDropzone extends React.Component {
         index: {
           author: '',
           date: 0,
-          paths: []
+          paths: [],
+          loadingMessage: null,
         }
+
     }
 
 
@@ -39,6 +41,7 @@ class MyDropzone extends React.Component {
 
       console.log("got identity:", identity)
 
+      this.setState({loadingMessage: "fetching bucket keys"})
       const {bucketKey, buckets} = await this.getBucketKey()
       this.setState({
         buckets: buckets,
@@ -48,15 +51,19 @@ class MyDropzone extends React.Component {
       console.log("got bucket keys")
 
       await this.getBucketLinks()
+      this.setState({loadingMessage: "fetching index"})
       const index = await this.getFileIndex()
       console.log("got index")
       if (index) {
+
         await this.filelistFromIndex(index)
         this.setState({
           index,
           isLoading: false
         })
       }
+
+      this.setState({loadingMessage: null})
     }
 
     /////////////////////////////////////
@@ -130,6 +137,7 @@ class MyDropzone extends React.Component {
     }
 
     filelistFromIndex = async (index) => {
+        this.setState({loadingMessage: "fetching filelist"})
         if (!this.state.buckets || !this.state.bucketKey) {
             console.error('No bucket client or root key')
             return
@@ -209,6 +217,7 @@ class MyDropzone extends React.Component {
     }
 
     handleNewFile = async (file) => {
+        this.setState({loadingMessage: "handling file"})
         console.log("handleNewFile()")
         if (!this.state.buckets || !this.state.bucketKey) {
             console.error('No bucket client or root key')
@@ -221,12 +230,14 @@ class MyDropzone extends React.Component {
         fileSchema['name'] = `${file.name}`
         //TODO: this
         const filename = `${now}_${file.name}`
+        this.setState({loadingMessage: "pushing file to bucket"})
         fileSchema['original'] = await this.processAndStore(file, 'originals/', filename)
 
 
         const metadata = Buffer.from(JSON.stringify(fileSchema, null, 2))
         const metaname = `${now}_${file.name}.json`
         const path = `metadata/${metaname}`
+        this.setState({loadingMessage: "pushing metadata"})
         await this.state.buckets.pushPath(this.state.bucketKey, path, metadata)
         const fileOnBucket = fileSchema['original']
 
@@ -243,6 +254,8 @@ class MyDropzone extends React.Component {
                 }
             ]
         })
+
+        this.setState({loadingMessage: null})
     }
 
 
@@ -289,6 +302,13 @@ class MyDropzone extends React.Component {
                 </div>
               )}
             </Dropzone>
+
+                {!(this.state.loadingMessage == null) && <div>
+                    <Row style={{ padding: '10px 0'}}>
+                        <Loading>{this.state.loadingMessage}</Loading>
+                    </Row>
+                </div>
+                }
 
             <div>
                 {listItems}
