@@ -1,0 +1,34 @@
+[
+
+{
+    "Name": "Multi-echo fMRI replication sample of \nautobiographical memory, prospection and \ntheory of mind reasoning tasks", 
+    "BIDSVersion": "1.0.2",
+    "License": "PDDL",
+    "Authors": ["Elizabeth DuPre", "Wen-Ming Luh", "R. Nathan Spreng"] 
+},
+{
+    "Name": "ASL_Philips_PCASL_2DEPI",
+    "BIDSVersion": "1.5.0",
+    "DatasetType": "raw",
+    "License": "This dataset is made available under CC0.",
+    "Authors": [   "Sjoerd B. Vos",
+        "David L. Thomas"
+    ],
+    "HowToAcknowledge": "If you reference this dataset in your publications, please acknowledge its authors.",
+    "EthicsApprovals": ["This original study from which this BIDS example dataset was derived was approved by the local ethics committee as protocol optimisation procedures"]
+},
+{
+    "BIDSVersion":"1.0.0",
+    "License":"This dataset is made available under the Public Domain Dedication and License \nv1.0, whose full text can be found at \nhttp://www.opendatacommons.org/licenses/pddl/1.0/. \nWe hope that all users will follow the ODC Attribution/Share-Alike \nCommunity Norms (http://www.opendatacommons.org/norms/odc-by-sa/); \nin particular, while not legally required, we hope that all users \nof the data will acknowledge the OpenfMRI project and NSF Grant \nOCI-1131441 (R. Poldrack, PI) in any publications.",
+    "Name":"Classification learning",
+    "Authors":[
+      "Aron, A.R.",
+      "Gluck, M.A.",
+      "Poldrack, R.A."
+    ],
+    "ReferencesAndLinks":[
+      "Aron, A.R., Gluck, M.A., Poldrack, R.A. (2006). Long-term test-retest reliability of functional MRI in a classification learning task. Neuroimage, 29(3):1000-6"
+    ]
+}
+
+]

@@ -1,6 +1,7 @@
 import React from 'react';
+import { Grid } from '@geist-ui/react';
 import makeStyles from './makeStyles';
-import ProfileCard from './profile/ProfileCard';
+import DataCard from './DataCard';
 
 const useStyles = makeStyles((ui) => ({
   root: {
@@ -14,29 +15,20 @@ const useStyles = makeStyles((ui) => ({
     padding: `calc(${ui.layout.gap} * 2) ${ui.layout.pageMargin} calc(${ui.layout.gap} * 4)`,
     boxSizing: 'border-box',
     margin: '0 auto'
-  },
-  projects: {
-    width: 540,
-    maxWidth: '100%',
-    marginRight: 80,
-  }
-}));
+  }}))
 
-const Profile = () => {
+const Public = (props) => {
   const classes = useStyles();
+  const data = props.data.mockData;
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <div className={classes.projects}>
-          <ProfileCard
-            heading='Your DID'
-            address='did:3:gafyreideiwcju2cwecccxesr7woyufadeot67ifhrn7kuefmlqpqgrloeq'
-            name='3BOX'
-          />
-        </div>
+        <Grid.Container gap={2} justify="center">
+        {data.map((e) => {return (<Grid xs={24}><DataCard data={e}/></Grid>)})}
+        </Grid.Container>
       </div>
-      </div>
+    </div>
   );
 };
 
-export default Profile;
+export default Public;
