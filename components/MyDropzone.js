@@ -7,7 +7,7 @@ import { Buckets, PushPathResult, KeyInfo, PrivateKey, WithKeyInfoOptions } from
 import {getMetamaskIdentity} from '../lib/signerconnect'
 
 import { Card,Text, Row, Col, Loading } from '@geist-ui/react';
-import {Upload} from '@geist-ui/react-icons'
+import {Upload, Meh} from '@geist-ui/react-icons'
 
 
 class MyDropzone extends React.Component {
@@ -27,7 +27,7 @@ class MyDropzone extends React.Component {
           author: '',
           date: 0,
           paths: [],
-          loadingMessage: null,
+          loadingMessage: "loading",
         }
 
     }
@@ -285,37 +285,55 @@ class MyDropzone extends React.Component {
               onDrop={this.onDrop}
               maxSize={20000000}
               multiple={true}
+              disabled={!(this.state.loadingMessage === null)}
               >
               {({getRootProps, getInputProps}) => (
                 <div className="dropzone" {...getRootProps()}>
                   <input {...getInputProps()} />
                       <Card hoverable width="100%">
-                          <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
-                              <Col span={1.5}>
-                                  <Upload size={40}/>
-                              </Col>
-                          </Row>
-                          <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
-                              <Col span={30}>
-                                  <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
-                                  <Text type="primary" align="center"  medium><b>or</b></Text>
-                                  <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
-                              </Col>
-                          </Row>
-                          <aside>
-                      {/* <ul>{files}</ul>*/}
-                    </aside>
+                        {(this.state.loadingMessage === null) &&
+                        <>
+                        <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
+                          <Col span={1.5}>
+                              <Upload size={40}/>
+                          </Col>
+                        </Row>
+                        <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+                          <Col span={30}>
+                              <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
+                              <Text type="primary" align="center"  medium><b>or</b></Text>
+                              <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
+                          </Col>
+                        </Row>
+                        </>}
+                        {!(this.state.loadingMessage === null) &&
+                        <>
+                        <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
+                          <Col span={1.5}>
+                              <Meh size={40} color="grey"/>
+                          </Col>
+                        </Row>
+                        <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+                          <Col span={30}>
+                              <Text type="primary" align="center"  medium><b>Please Wait</b></Text>
+                          </Col>
+                        </Row>
+                        <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+                          <Col span={30}>
+                                <div>
+                                    <Row style={{ padding: '10px'}}>
+                                        <Loading>{this.state.loadingMessage}</Loading>
+                                    </Row>
+                                </div>
+                          </Col>
+                        </Row>
+                        </>}
                       </Card>
                 </div>
               )}
             </Dropzone>
 
-                {!(this.state.loadingMessage == null) && <div>
-                    <Row style={{ padding: '10px 0'}}>
-                        <Loading>{this.state.loadingMessage}</Loading>
-                    </Row>
-                </div>
-                }
+
 
             <div>
                 {listItems}
