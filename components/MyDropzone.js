@@ -8,23 +8,15 @@ import {Upload} from '@geist-ui/react-icons'
 import * as Icons from 'react-feather';
 
 
-function MyDropzone() {
-  const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader()
-
-      reader.onabort = () => console.log('file reading was aborted')
-      reader.onerror = () => console.log('file reading has failed')
-      reader.onload = () => {
-      // Do whatever you want with the file contents
-        const binaryStr = reader.result
-        console.log(binaryStr)
-      }
-      reader.readAsArrayBuffer(file)
-    })
-
-  }, [])
-  const {getRootProps, getInputProps} = useDropzone({onDrop})
+function MyDropzone(props) {
+  const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
+  
+  const files = acceptedFiles.map(file => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
+ 
 
   return (
     <div {...getRootProps()}>
@@ -43,12 +35,11 @@ function MyDropzone() {
                       <Button iconRight={<Icons.File size={16} />} auto size="small" />
                 </Col>
             </Row>
-
+            <aside>
+        <h4>Files</h4>
+        <ul>{files}</ul>
+      </aside>
         </Card>
-     
-    
-
-
     </div>
     
   )
