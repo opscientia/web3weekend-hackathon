@@ -244,6 +244,7 @@ class MyDropzone extends React.Component {
         const metadata = Buffer.from(JSON.stringify(fileSchema, null, 2))
         const metaname = `${now}_${file.name}.json`
         const path = `metadata/${metaname}`
+        console.log()
         this.setState({loadingMessage: "pushing metadata"})
         await this.state.buckets.pushPath(this.state.bucketKey, path, metadata)
         const fileOnBucket = fileSchema['original']
@@ -274,7 +275,7 @@ class MyDropzone extends React.Component {
           console.log(filename)
           await this.handleNewFile(file)
         }
-      // this.storeIndex(this.state.index)
+      this.storeIndex(this.state.index)
     }
 
     render(){
