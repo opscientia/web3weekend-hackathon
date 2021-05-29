@@ -34,7 +34,6 @@ function SignIn() {
           Sign in
         </Modal.Action>
       </Modal>
-    </>
   );
 }
 
