@@ -103,6 +103,7 @@ const popoverContent = () => (
 );
 
 const Menu = ({ toggleDarkMode, connectUser, provider }) => {
+  console.log("provider")
   console.log(provider)
   const classes = useStyles();
   const theme = useTheme();
@@ -141,7 +142,7 @@ const Menu = ({ toggleDarkMode, connectUser, provider }) => {
               type='abort'
               onClick={connectUser}
             >
-            {provider ?  "Disconnect" : "Connect" }
+            {provider ?  provider.address : "Connect" }
             </Button>
             <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
               <Avatar text="CL" />
