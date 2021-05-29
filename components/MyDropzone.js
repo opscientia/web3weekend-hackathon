@@ -7,7 +7,7 @@ import { Buckets, PushPathResult, KeyInfo, PrivateKey, WithKeyInfoOptions } from
 import {getMetamaskIdentity} from '../lib/signerconnect'
 
 import { Card,Text, Row, Col, Loading } from '@geist-ui/react';
-import {Upload} from '@geist-ui/react-icons'
+import {Upload, Meh} from '@geist-ui/react-icons'
 
 
 class MyDropzone extends React.Component {
@@ -27,7 +27,7 @@ class MyDropzone extends React.Component {
           author: '',
           date: 0,
           paths: [],
-          loadingMessage: null,
+          loadingMessage: "loading",
         }
 
     }
@@ -47,20 +47,26 @@ class MyDropzone extends React.Component {
         buckets: buckets,
         bucketKey: bucketKey
       })
-
       console.log("got bucket keys")
 
+      this.setState({loadingMessage: "fetching bucket links"})
       await this.getBucketLinks()
+      console.log("got bucket links")
+
+
       this.setState({loadingMessage: "fetching index"})
       const index = await this.getFileIndex()
-      console.log("got index")
+      // console.log("got index")
       if (index) {
-
+        console.log("index found :)")
         await this.filelistFromIndex(index)
         this.setState({
           index,
           isLoading: false
         })
+      }
+      else {
+          console.log("no index, wat?")
       }
 
       this.setState({loadingMessage: null})
@@ -138,6 +144,7 @@ class MyDropzone extends React.Component {
 
     filelistFromIndex = async (index) => {
         this.setState({loadingMessage: "fetching filelist"})
+        console.log("fetching filelist")
         if (!this.state.buckets || !this.state.bucketKey) {
             console.error('No bucket client or root key')
             return
@@ -237,6 +244,7 @@ class MyDropzone extends React.Component {
         const metadata = Buffer.from(JSON.stringify(fileSchema, null, 2))
         const metaname = `${now}_${file.name}.json`
         const path = `metadata/${metaname}`
+        console.log()
         this.setState({loadingMessage: "pushing metadata"})
         await this.state.buckets.pushPath(this.state.bucketKey, path, metadata)
         const fileOnBucket = fileSchema['original']
@@ -267,7 +275,7 @@ class MyDropzone extends React.Component {
           console.log(filename)
           await this.handleNewFile(file)
         }
-      // this.storeIndex(this.state.index)
+      this.storeIndex(this.state.index)
     }
 
     render(){
@@ -278,37 +286,55 @@ class MyDropzone extends React.Component {
               onDrop={this.onDrop}
               maxSize={20000000}
               multiple={true}
+              disabled={!(this.state.loadingMessage === null)}
               >
               {({getRootProps, getInputProps}) => (
                 <div className="dropzone" {...getRootProps()}>
                   <input {...getInputProps()} />
                       <Card hoverable width="100%">
-                          <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
-                              <Col span={1.5}>
-                                  <Upload size={40}/>
-                              </Col>
-                          </Row>
-                          <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
-                              <Col span={30}>
-                                  <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
-                                  <Text type="primary" align="center"  medium><b>or</b></Text>
-                                  <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
-                              </Col>
-                          </Row>
-                          <aside>
-                      {/* <ul>{files}</ul>*/}
-                    </aside>
+                        {(this.state.loadingMessage === null) &&
+                        <>
+                        <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
+                          <Col span={1.5}>
+                              <Upload size={40}/>
+                          </Col>
+                        </Row>
+                        <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+                          <Col span={30}>
+                              <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
+                              <Text type="primary" align="center"  medium><b>or</b></Text>
+                              <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
+                          </Col>
+                        </Row>
+                        </>}
+                        {!(this.state.loadingMessage === null) &&
+                        <>
+                        <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
+                          <Col span={1.5}>
+                              <Meh size={40} color="grey"/>
+                          </Col>
+                        </Row>
+                        <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+                          <Col span={30}>
+                              <Text type="primary" align="center"  medium><b>Please Wait</b></Text>
+                          </Col>
+                        </Row>
+                        <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+                          <Col span={30}>
+                                <div>
+                                    <Row style={{ padding: '10px'}}>
+                                        <Loading>{this.state.loadingMessage}</Loading>
+                                    </Row>
+                                </div>
+                          </Col>
+                        </Row>
+                        </>}
                       </Card>
                 </div>
               )}
             </Dropzone>
 
-                {!(this.state.loadingMessage == null) && <div>
-                    <Row style={{ padding: '10px 0'}}>
-                        <Loading>{this.state.loadingMessage}</Loading>
-                    </Row>
-                </div>
-                }
+
 
             <div>
                 {listItems}
@@ -317,49 +343,5 @@ class MyDropzone extends React.Component {
       )
   }
 }
-
-// function MyDropzone(props) {
-//
-//   // const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
-//
-//
-//   // getSignature().then((signature) => {
-//   //     console.log("FROM DROPZONE")
-//   //     console.log(signature)
-//   // })
-//
-//   // const files = acceptedFiles.map(file => (
-//   //   <li key={file.path}>
-//   //     {file.path} - {file.size} bytes
-//   //   </li>
-//   // ));
-//
-//
-//   // return (
-//   //   <div {...getRootProps()}>
-//   //
-//   //       <input {...getInputProps()} />
-//   //       {/*Input above needs to stay, can use any component below, image, paragraph... */}
-//   //       <Card hoverable width="100%">
-//   //           <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
-//   //               <Col span={1.5}>
-//   //                   <Upload size={40}/>
-//   //               </Col>
-//   //           </Row>
-//   //           <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
-//   //               <Col span={30}>
-//   //                   <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
-//   //                   <Text type="primary" align="center"  medium><b>or</b></Text>
-//   //                   <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
-//   //               </Col>
-//   //           </Row>
-//   //           <aside>
-//   //       <ul>{files}</ul>
-//   //     </aside>
-//   //       </Card>
-//   //   </div>
-//   //
-//   // )
-// };
 
 export default MyDropzone;
