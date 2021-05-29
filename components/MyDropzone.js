@@ -1,46 +1,345 @@
 import React from 'react'
 import {useDropzone} from 'react-dropzone'
+import Dropzone from 'react-dropzone'
 
+import { Buckets, PushPathResult, KeyInfo, PrivateKey, WithKeyInfoOptions } from '@textile/hub'
+
+import {getMetamaskIdentity} from '../lib/signerconnect'
 
 import { Card,Text, Row, Col } from '@geist-ui/react';
 import {Upload} from '@geist-ui/react-icons'
 
 
-function MyDropzone(props) {
-  const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
-  
-  const files = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
- 
+class MyDropzone extends React.Component {
+    //hack, putting keys here, might have to shift a few components up
 
-  return (
-    <div {...getRootProps()}>
+    ipfsGateway = 'https://hub.textile.io'
+    keyInfo = {
+      key: 'bxch3ikjx6yg2m4ewyeussjeuoy'
+    }
+    keyInfoOptions = {
+      debug: true
+    }
+    state = {
+        isLoading: true,
+        files: [],
+        index: {
+          author: '',
+          date: 0,
+          paths: []
+        }
+    }
 
-        <input {...getInputProps()} />
-        {/*Input above needs to stay, can use any component below, image, paragraph... */}
-        <Card hoverable width="100%">
-            <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
-                <Col span={1.5}>
-                    <Upload size={40}/>
-                </Col>
-            </Row>
-            <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
-                <Col span={30}>
-                    <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
-                    <Text type="primary" align="center"  medium><b>or</b></Text>
-                    <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
-                </Col>
-            </Row>
-            <aside>
-        <ul>{files}</ul>
-      </aside>
-        </Card>
-    </div>
-    
-  )
-};
+
+    async componentDidMount() {
+      const identity = await this.getIdentity()
+      this.setState({
+        identity: identity
+      })
+
+      console.log("got identity:", identity)
+
+      const {bucketKey, buckets} = await this.getBucketKey()
+      this.setState({
+        buckets: buckets,
+        bucketKey: bucketKey
+      })
+
+      console.log("got bucket keys")
+
+      await this.getBucketLinks()
+      const index = await this.getFileIndex()
+      console.log("got index")
+      if (index) {
+        await this.filelistFromIndex(index)
+        this.setState({
+          index,
+          isLoading: false
+        })
+      }
+    }
+
+    /////////////////////////////////////
+    // Textile Bucket api init stuff
+
+    getIdentity = async () => {
+      try {
+        return getMetamaskIdentity()
+      }
+      catch (e) {
+        console.log("Couldn't connect to metamask :(((")
+      }
+    }
+
+    getBucketKey = async () => {
+      if (!this.state.identity) {
+        throw new Error('Identity not set')
+      }
+      const buckets = await Buckets.withKeyInfo(this.keyInfo, this.keyInfoOptions)
+      // Authorize the user and your insecure keys with getToken
+      await buckets.getToken(this.state.identity)
+
+      const buck = await buckets.getOrCreate('io.textile.dropzone')
+      if (!buck.root) {
+        throw new Error('Failed to open bucket')
+      }
+      return {buckets: buckets, bucketKey: buck.root.key};
+    }
+
+    getBucketLinks = async () => {
+      if (!this.state.buckets || !this.state.bucketKey) {
+        console.error('No bucket client or root key')
+        return
+      }
+      const links = await this.state.buckets.links(this.state.bucketKey)
+      console.log("\n\nLINKS\n")
+      console.log(links)
+      this.setState({
+        ...links
+      })
+    }
+
+    ///////////////////////////////////////
+    //Storing and retrieval from bucket
+
+    //store metadata json into bucket
+    storeIndex = async (index) => {
+      if (!this.state.buckets || !this.state.bucketKey) {
+        console.error('No bucket client or root key')
+        return
+      }
+      const buf = Buffer.from(JSON.stringify(index, null, 2))
+      const path = `index.json`
+      await this.state.buckets.pushPath(this.state.bucketKey, path, buf)
+    }
+
+    initIndex = async () => {
+      if (!this.state.identity) {
+        console.error('Identity not set')
+        return
+      }
+      //this will be converted to JSON, this is basically author metadata
+      const index = {
+        author: this.state.identity.public.toString(),
+        date: (new Date()).getTime(),
+        paths: []
+      }
+
+      await this.storeIndex(index)
+      return index
+    }
+
+    filelistFromIndex = async (index) => {
+        if (!this.state.buckets || !this.state.bucketKey) {
+            console.error('No bucket client or root key')
+            return
+        }
+
+        //get file paths from index.paths array
+        for (let path of index.paths) {
+            console.log(path)
+            const metadata = await this.state.buckets.pullPath(this.state.bucketKey, path)
+            console.log(await this.state.buckets.links(this.state.bucketKey))
+            const { value } = await metadata.next();
+            let str = "";
+            for (var i = 0; i < value.length; i++) {
+                str += String.fromCharCode(parseInt(value[i]));
+            }
+            const json = JSON.parse(str)
+            const file = json.original
+            this.setState({
+              files: [
+                ...this.state.files,
+                {
+                  src:`${this.ipfsGateway}/ipfs/${file.cid}`,
+                  key: file.name,
+                }
+              ]
+            })
+        }
+    }
+
+    getFileIndex = async () => {
+      if (!this.state.buckets || !this.state.bucketKey) {
+        console.error('No bucket client or root key')
+        return
+      }
+      try {
+        const metadata = this.state.buckets.pullPath(this.state.bucketKey, 'index.json')
+        const { value } = await metadata.next();
+        let str = "";
+        for (var i = 0; i < value.length; i++) {
+          str += String.fromCharCode(parseInt(value[i]));
+        }
+        const index = JSON.parse(str)
+        return index
+      } catch (error) {
+        const index = await this.initIndex()
+        // await this.initPublicGallery()
+        return index
+      }
+    }
+
+
+    ///////////////////////////////////////
+    //File handling, on drop and setting metadata, uploading to bucket etc.
+
+    insertFile = async (file, path) => {
+      if (!this.state.buckets || !this.state.bucketKey) {
+        throw new Error('No bucket client or root key')
+      }
+      const buckets = this.state.buckets
+      return await buckets.pushPath(this.state.bucketKey, path, file.stream())
+    }
+
+    processAndStore = async (file, path, name) => {
+        console.log("processAndStore")
+        console.log(file, path, name)
+      // const finalImage = limits ? await readAndCompressImage(image, limits) : image
+      // const size = await browserImageSize(finalImage)
+      const location = `${path}${name}`
+      const raw = await this.insertFile(file, location)
+      const metadata = {
+        cid: raw.path.cid.toString(),
+        name: name,
+        path: location,
+      }
+      console.log(metadata)
+      return metadata
+    }
+
+    handleNewFile = async (file) => {
+        console.log("handleNewFile()")
+        if (!this.state.buckets || !this.state.bucketKey) {
+            console.error('No bucket client or root key')
+            return
+        }
+        const fileSchema = {}
+        const now = new Date().getTime()
+
+        fileSchema['date'] = now
+        fileSchema['name'] = `${file.name}`
+        //TODO: this
+        const filename = `${now}_${file.name}`
+        fileSchema['original'] = await this.processAndStore(file, 'originals/', filename)
+
+
+        const metadata = Buffer.from(JSON.stringify(fileSchema, null, 2))
+        const metaname = `${now}_${file.name}.json`
+        const path = `metadata/${metaname}`
+        await this.state.buckets.pushPath(this.state.bucketKey, path, metadata)
+        const fileOnBucket = fileSchema['original']
+
+        this.setState({
+            index: {
+                ...this.state.index,
+                paths: [...this.state.index.paths, path]
+            },
+            files: [
+                ...this.state.files,
+                {
+                    src: `${this.ipfsGateway}/ipfs/${fileOnBucket.cid}`,
+                    key: fileOnBucket.name,
+                }
+            ]
+        })
+    }
+
+
+    onDrop = async (acceptedFiles) => {
+        const now = new Date().getTime()
+        for (const file of acceptedFiles) {
+          //setting a simple format date_filename
+          const filename = `${now}_${file.name}`
+          console.log(filename)
+          await this.handleNewFile(file)
+        }
+      // this.storeIndex(this.state.index)
+    }
+
+    render(){
+      const listItems = this.state.files.map((f) => <p>{f.key} | {f.src}</p>)
+      return (
+          <>
+            <Dropzone
+              onDrop={this.onDrop}
+              maxSize={20000000}
+              multiple={true}
+              >
+              {({getRootProps, getInputProps}) => (
+                <div className="dropzone" {...getRootProps()}>
+                  <input {...getInputProps()} />
+                      <Card hoverable width="100%">
+                          <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
+                              <Col span={1.5}>
+                                  <Upload size={40}/>
+                              </Col>
+                          </Row>
+                          <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+                              <Col span={30}>
+                                  <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
+                                  <Text type="primary" align="center"  medium><b>or</b></Text>
+                                  <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
+                              </Col>
+                          </Row>
+                          <aside>
+                      {/* <ul>{files}</ul>*/}
+                    </aside>
+                      </Card>
+                </div>
+              )}
+            </Dropzone>
+
+            <div>
+                {listItems}
+            </div>
+        </>
+      )
+  }
+}
+
+// function MyDropzone(props) {
+//
+//   // const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
+//
+//
+//   // getSignature().then((signature) => {
+//   //     console.log("FROM DROPZONE")
+//   //     console.log(signature)
+//   // })
+//
+//   // const files = acceptedFiles.map(file => (
+//   //   <li key={file.path}>
+//   //     {file.path} - {file.size} bytes
+//   //   </li>
+//   // ));
+//
+//
+//   // return (
+//   //   <div {...getRootProps()}>
+//   //
+//   //       <input {...getInputProps()} />
+//   //       {/*Input above needs to stay, can use any component below, image, paragraph... */}
+//   //       <Card hoverable width="100%">
+//   //           <Row gap={0.8} justify="center" style={{ marginBottom: '15px', marginTop: '15px'}}>
+//   //               <Col span={1.5}>
+//   //                   <Upload size={40}/>
+//   //               </Col>
+//   //           </Row>
+//   //           <Row gap={0.8} align="center" style={{ marginBottom: '15px' }}>
+//   //               <Col span={30}>
+//   //                   <Text type="primary" align="center"  medium><b>Drag and Drop</b></Text>
+//   //                   <Text type="primary" align="center"  medium><b>or</b></Text>
+//   //                   <Text type="primary" align="center"  medium><b>Click to Select Files</b></Text>
+//   //               </Col>
+//   //           </Row>
+//   //           <aside>
+//   //       <ul>{files}</ul>
+//   //     </aside>
+//   //       </Card>
+//   //   </div>
+//   //
+//   // )
+// };
 
 export default MyDropzone;
