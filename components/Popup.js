@@ -4,7 +4,7 @@ import { Modal, Image} from '@geist-ui/react';
 const Popup = (props) => {
     return (
       <div>
-        <Modal width="32rem" open={props.submitSuccess} onClose={closeHandler}>
+        <Modal width="32rem" open={props.submitSuccess}>
           <Image src="/assets/poap.png" width={90}/>
           <Modal.Title>POAP Alert</Modal.Title>
           <Modal.Content>
