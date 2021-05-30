@@ -19,6 +19,7 @@ class MyDropzone extends React.Component {
     }
     state = {
         isLoading: true,
+        submitSuccess: false,
         files: [],
         index: {
           author: '',
@@ -40,26 +41,19 @@ class MyDropzone extends React.Component {
         identity: identity
       })
 
-      console.log("got identity:", identity)
-
       this.setState({loadingMessage: "fetching bucket keys"})
       const {bucketKey, buckets} = await this.getBucketKey()
       this.setState({
         buckets: buckets,
         bucketKey: bucketKey
       })
-      console.log("got bucket keys")
 
       this.setState({loadingMessage: "fetching bucket links"})
       await this.getBucketLinks()
-      console.log("got bucket links")
-
 
       this.setState({loadingMessage: "fetching index"})
       const index = await this.getFileIndex()
-      // console.log("got index")
       if (index) {
-        console.log("index found :)")
         await this.filelistFromIndex(index)
         this.setState({
           index: index,
@@ -67,7 +61,7 @@ class MyDropzone extends React.Component {
         })
       }
       else {
-          console.log("no index, wat?")
+          console.log("No index")
       }
 
       this.setState({loadingMessage: null})
@@ -81,7 +75,7 @@ class MyDropzone extends React.Component {
         return getMetamaskIdentity()
       }
       catch (e) {
-        console.log("Couldn't connect to metamask :(((")
+        console.log("Couldn't connect to metamask")
       }
     }
 
@@ -106,8 +100,6 @@ class MyDropzone extends React.Component {
         return
       }
       const links = await this.state.buckets.links(this.state.bucketKey)
-      console.log("\n\nLINKS\n")
-      console.log(links)
       this.setState({
         ...links
       })
@@ -145,7 +137,6 @@ class MyDropzone extends React.Component {
 
     filelistFromIndex = async (index) => {
         this.setState({loadingMessage: "fetching filelist"})
-        console.log("fetching filelist")
         if (!this.state.buckets || !this.state.bucketKey) {
             console.error('No bucket client or root key')
             return
@@ -289,7 +280,7 @@ class MyDropzone extends React.Component {
     }
 
     submitHandler = async () => {
-        if(this.state.input_file == null) {console.log("\n\nUPLOAD FILE PLSSSS\n\n")}
+        if(this.state.input_file == null) {console.error("\n\nNo file\n\n")}
         else{
             await this.handleNewFile(this.state.input_file)
 
@@ -302,6 +293,11 @@ class MyDropzone extends React.Component {
             })
 
             this.storeIndex(this.state.index)
+
+            this.setState({
+              submitSuccess: true
+            })
+            
         }
     }
 
@@ -353,9 +349,6 @@ class MyDropzone extends React.Component {
       const bucketData = this.formatBucketData()
       return (
           <>
-
-            <Private myData={bucketData} accessData={bucketData} />
-
             <Dropzone
               onDrop={this.onDrop}
               maxSize={20000000}
@@ -413,8 +406,11 @@ class MyDropzone extends React.Component {
                 titleHandler={this.titleHandler}
                 authors={this.state.authors}
                 authorsHandler={this.authorsHandler}
-                submitHandler={this.submitHandler}/>
-        </>
+                submitHandler={this.submitHandler}
+                submitSuccess={this.state.submitSuccess}/>
+
+            <Private myData={bucketData} accessData={bucketData} />            
+          </>
       )
   }
 }

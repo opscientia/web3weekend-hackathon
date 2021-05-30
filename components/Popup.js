@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Modal, Image, Icon } from '@geist-ui/react';
+import { Modal, Image} from '@geist-ui/react';
 
-const Popup = () => {
-    const [state, setState] = useState(false)
-    const handler = () => setState(true)
-    const closeHandler = (event) => {
-      setState(false)
-      console.log('closed')
-    }
+const Popup = (props) => {
     return (
       <div>
-        <Button auto onClick={handler}>Submit</Button>
-        <Modal width="32rem" open={state} onClose={closeHandler}>
+        <Modal width="32rem" open={props.submitSuccess} onClose={closeHandler}>
           <Image src="/assets/poap.png" width={90}/>
           <Modal.Title>POAP Alert</Modal.Title>
           <Modal.Content>
@@ -22,7 +15,7 @@ const Popup = () => {
                 <Image src="/assets/discord.png" width={30}/>
             </a>
           </Modal.Content>
-          <Modal.Action passive onClick={() => setState(false)}>Close</Modal.Action>
+          <Modal.Action passive>Close</Modal.Action>
         </Modal>
       </div>
     )
