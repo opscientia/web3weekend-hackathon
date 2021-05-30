@@ -557,6 +557,16 @@
   "resolved" "https://registry.npmjs.org/@hapi/hoek/-/hoek-9.2.0.tgz"
   "version" "9.2.0"
 
+"@iconify-icons/simple-icons@^1.1.26":
+  "integrity" "sha512-QU0O1VSlAX+ElAPvx2hkn9Ljsf1Y2F4XL7fW26+8TFOyiPJdgYSH0WqVr/ste1Ll5iC8bEzLimKz1rE2nTZ0WA=="
+  "resolved" "https://registry.npmjs.org/@iconify-icons/simple-icons/-/simple-icons-1.1.26.tgz"
+  "version" "1.1.26"
+
+"@iconify/react@^1.1.4":
+  "integrity" "sha512-oxq8IMOq8q3nKGiDHbQPC8FcFuBsKve68JWBo140d5LRnj0bv5TB/FE/y01ZSvEZ7PlI2HIrnb2qivPN8kTDgw=="
+  "resolved" "https://registry.npmjs.org/@iconify/react/-/react-1.1.4.tgz"
+  "version" "1.1.4"
+
 "@improbable-eng/grpc-web@^0.12.0":
   "integrity" "sha512-uJjgMPngreRTYPBuo6gswMj1gK39Wbqre/RgE0XnSDXJRg6ST7ZhuS53dFE6Vc2CX4jxgl+cO+0B3op8LA4Q0Q=="
   "resolved" "https://registry.npmjs.org/@improbable-eng/grpc-web/-/grpc-web-0.12.0.tgz"
