@@ -1,13 +1,10 @@
 import React from 'react'
-import {useDropzone} from 'react-dropzone'
 import Dropzone from 'react-dropzone'
-
-import { Buckets, PushPathResult, KeyInfo, PrivateKey, WithKeyInfoOptions } from '@textile/hub'
-
+import { Buckets } from '@textile/hub'
 import {getMetamaskIdentity} from '../lib/signerconnect'
-
 import { Card,Text, Row, Col, Loading } from '@geist-ui/react';
 import {Upload, Meh} from '@geist-ui/react-icons'
+import Form from './Form';
 
 
 class MyDropzone extends React.Component {
@@ -333,12 +330,7 @@ class MyDropzone extends React.Component {
                 </div>
               )}
             </Dropzone>
-
-
-
-            <div>
-                {listItems}
-            </div>
+            <Form loading={this.state.loadingMessage} listItems={listItems}/>
         </>
       )
   }

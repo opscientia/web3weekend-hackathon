@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useRouter} from 'next/router'
-import { Text,GeistUIThemes, Avatar, Button, Tabs, useTheme, Popover, Link } from '@geist-ui/react';
+import { Text, Avatar, Button, Tabs, useTheme, Popover, Link } from '@geist-ui/react';
 import makeStyles from './makeStyles';
 
 
@@ -124,25 +124,24 @@ const Menu = ({ connectUser, provider }) => {
 
   return (
     <>
-      <div className={classes.header}>
+      <div className={classes.header} style={{ marginTop: '10px' }}>
         <div className={classes.headerContent}>
-          <div style={{ display: 'flex' }}>
-            <Avatar alt="Your Avatar" className={classes.avatar} src="/assets/Opscientia.png" />
-            <div className={classes.headerTitle}> <Text h3>OpsciBay  &nbsp;</Text></div>
-          </div>
-          <div className={classes.sidebar}>
-            <Button
-              auto
-              type='abort'
-              onClick={connectUser}
-            >
-            {provider ? provider.address : "Connect" }
-            </Button>
-            <Text>did:Something &nbsp;</Text>
-            <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
-              <Avatar src="/assets/dependabot.png" />
-            </Popover>
-          </div>
+            <div style={{ display: 'flex' }}>
+              <Avatar alt="Your Avatar" className={classes.avatar} src="/assets/Opscientia.png" />
+              <div className={classes.headerTitle}> <Text h3>OpsciBay  &nbsp;</Text></div>
+            </div>
+            <div className={classes.sidebar}>
+              <Button
+                auto
+                type='abort'
+                onClick={connectUser}
+              >
+              {provider ? provider.address : "Connect" }
+              </Button>
+              <Popover content={popoverContent} placement="bottomEnd" portalClassName={classes.popover}>
+                <Avatar src="/assets/dependabot.png" />
+              </Popover>
+            </div>
         </div>
       </div>
       <nav className={classes.nav + ' ' + (fixed ? classes.navFixed : '')}>
