@@ -6,11 +6,13 @@ Data management with the Opsci Data Wallet flips the data economy on its head an
 
 ## 💫 Inspiration
 
-Neuroscience data is recorded from study participant’s brains using imaging technologies like Magnetic Resonance Imaging (MRI) and Electro-encephalography (EEG). This neuroimaging data is often accompanied by further personal data, including age and health status, and metadata about experimental conditions and protocols.
+Neuroscience data is recorded from study participant’s brains using imaging technologies like Magnetic Resonance Imaging (MRI) and Electro-encephalography (EEG). This neuroimaging data is collected along with rich personal data, including age and health status, and metadata about experimental conditions and protocols.
 
-These datasets are some of the most valuable in existence, in terms of the answers they contain about incurable diseases such as dementia, and human suffering such as depression and chronic pain. They’re often collected over many years, through hundreds of scientist hours and time volunteered by participants. 
+These datasets are some of the most valuable in existence, in terms of the answers they contain about incurable diseases such as dementia, and human suffering such as depression and chronic pain. High quality neuroimaging data is collected over many years, through hundreds of scientist hours and time volunteered by participants. 
 
-Currently, most of these datasets are siloed in centralised databases (e.g. universities and hospitals) all over the world. In some cases, data may be kept on personal hard drives. Unleashing this data to build a data commons for global scientists has been met with resistance by mis-aligned incentive structures.  Scientists are not incentivised to share their data open source with their peers, nor are participants incentivised to take part in research. As a consequence, this valuable data is vulnerable to loss and corruption, and scientific collaboration is difficult and participants hard to recruit. Furthermore, participants do not retain ownership over their data, and revoking consent/permissioning is a high friction and complex process.
+Currently, most of these datasets are siloed in centralised databases (e.g. universities and hospitals) all over the world. In some cases, data may be kept on personal hard drives. Unleashing this data to build a data commons for global scientists has been a difficult task.  Scientists are not incentivised to share their data open source with their peers, nor are participants incentivised to provide sensitive data. 
+
+As a consequence, this valuable data is vulnerable to loss and corruption, scientific collaboration is difficult, and participants are hard to recruit. If participants do volunteer, they effectively give up ownership over their data because managing their consent and dataset permissions is a high friction and complex process.
 
 ## 💭 Concept
 
