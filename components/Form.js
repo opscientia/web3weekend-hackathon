@@ -9,13 +9,13 @@ function Form(props) {
             </div>
             <Row gap={.8} style={{ marginTop: '15px', marginBottom: '15px' }}>
             <Col>
-                <Input placeholder="Enter here" >
-                    Title: 
+                <Input placeholder="Enter here" onChange={props.titleHandler} value={props.title}>
+                    Title:
                 </Input>
             </Col>
             <Col>
-                <Input placeholder="Enter here" >
-                    Authors: 
+                <Input placeholder="Enter here" onChange={props.authorsHandler} value={props.authors}>
+                    Authors:
                 </Input>
             </Col>
             <Col>
@@ -24,7 +24,7 @@ function Form(props) {
                 </Input>
             </Col>
             </Row>
-            <Button align="center">Submit</Button>
+            <Button align="center" onClick={props.submitHandler}>Submit</Button>
         </ div>
     )
 };

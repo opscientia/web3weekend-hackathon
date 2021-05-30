@@ -25,12 +25,16 @@ class MyDropzone extends React.Component {
           date: 0,
           paths: [],
           loadingMessage: "loading",
-        }
+      },
+      input_file: null,
+      title: null,
+      authors: null,
 
     }
 
 
     async componentDidMount() {
+      this.setState({loadingMessage: "waiting for metamask"})
       const identity = await this.getIdentity()
       this.setState({
         identity: identity
@@ -58,7 +62,7 @@ class MyDropzone extends React.Component {
         console.log("index found :)")
         await this.filelistFromIndex(index)
         this.setState({
-          index,
+          index: index,
           isLoading: false
         })
       }
@@ -165,10 +169,23 @@ class MyDropzone extends React.Component {
                 {
                   src:`${this.ipfsGateway}/ipfs/${file.cid}`,
                   key: file.name,
+                  authors: file.authors,
+                  title: file.title,
                 }
               ]
             })
         }
+    }
+
+    getJSONFromBucket = async (path) => {
+        const data = this.state.buckets.pullPath(this.state.bucketKey, path)
+        const { value } = await data.next();
+        let str = "";
+        for (var i = 0; i < value.length; i++) {
+          str += String.fromCharCode(parseInt(value[i]));
+        }
+        const json_data = JSON.parse(str)
+        return json_data
     }
 
     getFileIndex = async () => {
@@ -177,15 +194,11 @@ class MyDropzone extends React.Component {
         return
       }
       try {
-        const metadata = this.state.buckets.pullPath(this.state.bucketKey, 'index.json')
-        const { value } = await metadata.next();
-        let str = "";
-        for (var i = 0; i < value.length; i++) {
-          str += String.fromCharCode(parseInt(value[i]));
-        }
-        const index = JSON.parse(str)
+        const index = await this.getJSONFromBucket('index.json')
         return index
       } catch (error) {
+        console.log(error)
+        console.log("\n\ninitializing INDEX\n\n")
         const index = await this.initIndex()
         // await this.initPublicGallery()
         return index
@@ -232,6 +245,8 @@ class MyDropzone extends React.Component {
 
         fileSchema['date'] = now
         fileSchema['name'] = `${file.name}`
+        fileSchema['title'] = this.state.title
+        fileSchema['authors'] = this.state.authors
         //TODO: this
         const filename = `${now}_${file.name}`
         this.setState({loadingMessage: "pushing file to bucket"})
@@ -241,7 +256,7 @@ class MyDropzone extends React.Component {
         const metadata = Buffer.from(JSON.stringify(fileSchema, null, 2))
         const metaname = `${now}_${file.name}.json`
         const path = `metadata/${metaname}`
-        console.log()
+        console.log("metadata: ", metadata)
         this.setState({loadingMessage: "pushing metadata"})
         await this.state.buckets.pushPath(this.state.bucketKey, path, metadata)
         const fileOnBucket = fileSchema['original']
@@ -264,15 +279,48 @@ class MyDropzone extends React.Component {
     }
 
 
+    // onDrop = async (acceptedFiles) => {
+    //     const now = new Date().getTime()
+    //     for (const file of acceptedFiles) {
+    //       //setting a simple format date_filename
+    //       const filename = `${now}_${file.name}`
+    //       console.log(filename)
+    //       await this.handleNewFile(file)
+    //     }
+    //   this.storeIndex(this.state.index)
+    // }
+
     onDrop = async (acceptedFiles) => {
-        const now = new Date().getTime()
         for (const file of acceptedFiles) {
           //setting a simple format date_filename
-          const filename = `${now}_${file.name}`
-          console.log(filename)
-          await this.handleNewFile(file)
+          console.log(file.name)
+          this.setState({input_file: file})
         }
-      this.storeIndex(this.state.index)
+    }
+
+    submitHandler = async () => {
+        if(this.state.input_file == null) {console.log("\n\nUPLOAD FILE PLSSSS\n\n")}
+        else{
+            await this.handleNewFile(this.state.input_file)
+
+            await this.storeIndex(this.state.index)
+
+            this.setState({
+                input_file: null,
+                title: null,
+                authors: null,
+            })
+
+            this.storeIndex(this.state.index)
+        }
+    }
+
+    titleHandler = (e) => {
+        this.setState({title: e.target.value})
+    }
+
+    authorsHandler = (e) => {
+        this.setState({authors: e.target.value})
     }
 
     render(){
@@ -330,7 +378,14 @@ class MyDropzone extends React.Component {
                 </div>
               )}
             </Dropzone>
-            <Form loading={this.state.loadingMessage} listItems={listItems}/>
+            <Form
+                loading={this.state.loadingMessage}
+                title={this.state.title}
+                titlehandler={this.titleHandler}
+                authors={this.state.authors}
+                authorhandler={this.authorhandler}
+                submitHandler={this.submitHandler}
+                listItems={listItems}/>
         </>
       )
   }
