@@ -96,4 +96,12 @@ _"I spent my early life in academia before transitioning into tech. There’s an
 
 _"The most significant existential challenge for the future of science is human coordination and incentive alignment. What started as a brain hack-a-thon project has become a start-up to decentralize scientific enterprise and uplift the people that make knowledge generation possible."_
 
-## Thanks!
+## Thanks! Follow our Development:
+
+ 🐦 follow us @opscientia on twitter
+
+[The Open Science Bay](https://opscibay.io)
+
+[OpscientiaDAO on Medium](https://medium.com/opscientia-dao)
+
+[![Opscientia](https://img.shields.io/discord/819266495972507699.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/S3uDbdFKA9)
