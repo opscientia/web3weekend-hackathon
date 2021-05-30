@@ -1,6 +1,5 @@
 import React from 'react';
 import { Input, Button, Row, Col } from '@geist-ui/react';
-import Popup from './Popup';
 
 function Form(props) {
     return (
