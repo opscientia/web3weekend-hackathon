@@ -5,7 +5,7 @@ import {getMetamaskIdentity} from '../lib/signerconnect'
 import { Card,Text, Row, Col, Loading } from '@geist-ui/react';
 import {Upload, Meh} from '@geist-ui/react-icons'
 import Form from './Form';
-
+import Private from "./Private"
 
 class MyDropzone extends React.Component {
     //hack, putting keys here, might have to shift a few components up
@@ -25,12 +25,16 @@ class MyDropzone extends React.Component {
           date: 0,
           paths: [],
           loadingMessage: "loading",
-        }
+      },
+      input_file: null,
+      title: null,
+      authors: null,
 
     }
 
 
     async componentDidMount() {
+      this.setState({loadingMessage: "waiting for metamask"})
       const identity = await this.getIdentity()
       this.setState({
         identity: identity
@@ -58,7 +62,7 @@ class MyDropzone extends React.Component {
         console.log("index found :)")
         await this.filelistFromIndex(index)
         this.setState({
-          index,
+          index: index,
           isLoading: false
         })
       }
@@ -165,10 +169,23 @@ class MyDropzone extends React.Component {
                 {
                   src:`${this.ipfsGateway}/ipfs/${file.cid}`,
                   key: file.name,
+                  authors: file.authors,
+                  title: file.title,
                 }
               ]
             })
         }
+    }
+
+    getJSONFromBucket = async (path) => {
+        const data = this.state.buckets.pullPath(this.state.bucketKey, path)
+        const { value } = await data.next();
+        let str = "";
+        for (var i = 0; i < value.length; i++) {
+          str += String.fromCharCode(parseInt(value[i]));
+        }
+        const json_data = JSON.parse(str)
+        return json_data
     }
 
     getFileIndex = async () => {
@@ -177,15 +194,11 @@ class MyDropzone extends React.Component {
         return
       }
       try {
-        const metadata = this.state.buckets.pullPath(this.state.bucketKey, 'index.json')
-        const { value } = await metadata.next();
-        let str = "";
-        for (var i = 0; i < value.length; i++) {
-          str += String.fromCharCode(parseInt(value[i]));
-        }
-        const index = JSON.parse(str)
+        const index = await this.getJSONFromBucket('index.json')
         return index
       } catch (error) {
+        console.log(error)
+        console.log("\n\ninitializing INDEX\n\n")
         const index = await this.initIndex()
         // await this.initPublicGallery()
         return index
@@ -232,6 +245,8 @@ class MyDropzone extends React.Component {
 
         fileSchema['date'] = now
         fileSchema['name'] = `${file.name}`
+        fileSchema['title'] = this.state.title
+        fileSchema['authors'] = this.state.authors
         //TODO: this
         const filename = `${now}_${file.name}`
         this.setState({loadingMessage: "pushing file to bucket"})
@@ -241,7 +256,7 @@ class MyDropzone extends React.Component {
         const metadata = Buffer.from(JSON.stringify(fileSchema, null, 2))
         const metaname = `${now}_${file.name}.json`
         const path = `metadata/${metaname}`
-        console.log()
+        console.log("metadata: ", metadata)
         this.setState({loadingMessage: "pushing metadata"})
         await this.state.buckets.pushPath(this.state.bucketKey, path, metadata)
         const fileOnBucket = fileSchema['original']
@@ -256,6 +271,8 @@ class MyDropzone extends React.Component {
                 {
                     src: `${this.ipfsGateway}/ipfs/${fileOnBucket.cid}`,
                     key: fileOnBucket.name,
+                    authors: this.state.authors,
+                    title: this.state.title,
                 }
             ]
         })
@@ -263,22 +280,82 @@ class MyDropzone extends React.Component {
         this.setState({loadingMessage: null})
     }
 
-
     onDrop = async (acceptedFiles) => {
-        const now = new Date().getTime()
         for (const file of acceptedFiles) {
           //setting a simple format date_filename
-          const filename = `${now}_${file.name}`
-          console.log(filename)
-          await this.handleNewFile(file)
+          console.log(file.name)
+          this.setState({input_file: file})
         }
-      this.storeIndex(this.state.index)
+    }
+
+    submitHandler = async () => {
+        if(this.state.input_file == null) {console.log("\n\nUPLOAD FILE PLSSSS\n\n")}
+        else{
+            await this.handleNewFile(this.state.input_file)
+
+            await this.storeIndex(this.state.index)
+
+            this.setState({
+                input_file: null,
+                title: null,
+                authors: null,
+            })
+
+            this.storeIndex(this.state.index)
+        }
+    }
+
+    titleHandler = (e) => {
+        this.setState({title: e.target.value})
+    }
+
+    authorsHandler = (e) => {
+        this.setState({authors: e.target.value})
+    }
+
+    formatBucketData() {
+
+        // {
+        //   src:`${this.ipfsGateway}/ipfs/${file.cid}`,
+        //   key: file.name,
+        //   authors: file.authors,
+        //   title: file.title,
+        // }
+        // {
+        //     "Name": "Multi-echo fMRI replication sample of \nautobiographical memory, prospection and \ntheory of mind reasoning tasks",
+        //     "BIDSVersion": "1.0.2",
+        //     "License": "PDDL",
+        //     "Authors": ["Elizabeth DuPre", "Wen-Ming Luh", "R. Nathan Spreng"],
+        //     "Tags": ["Brains", "fMRI"]
+        // },
+
+        var res = []
+        for (var f in this.state.files) {
+            res.push({
+                "Name": f.title,
+                "Authors": [f.authors,],
+                "Tags": ["Brains", "fMRI"],
+                "BIDSVersion": "1.0.2",
+            })
+        }
+
+        const myData = {
+            mockData: res,
+        }
+        console.log("files:", this.state.files)
+        console.log("myData:", myData)
+
+        return myData
     }
 
     render(){
       const listItems = this.state.files.map((f) => <p>{f.key} | {f.src}</p>)
+      const bucketData = this.formatBucketData()
       return (
           <>
+
+            <Private myData={bucketData} accessData={bucketData} />
+
             <Dropzone
               onDrop={this.onDrop}
               maxSize={20000000}
@@ -330,7 +407,13 @@ class MyDropzone extends React.Component {
                 </div>
               )}
             </Dropzone>
-            <Form loading={this.state.loadingMessage} listItems={listItems}/>
+            <Form
+                loading={this.state.loadingMessage}
+                title={this.state.title}
+                titleHandler={this.titleHandler}
+                authors={this.state.authors}
+                authorsHandler={this.authorsHandler}
+                submitHandler={this.submitHandler}/>
         </>
       )
   }
