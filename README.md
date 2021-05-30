@@ -22,6 +22,8 @@ Opscientia’s vision is wield Web3 tools to:
 - reward citizens for taking part in neuroscience studies and sharing their data
 - allow citizens to retain ownership over their data and easily modify permissions (including with third parties, if they wish)
 
+To realize this vision, we've developed The Opsci Data Wallet concept 👉 a dApp that allows a researcher to upload a file in a scientific standard specification, verify the file specification metadata, assign ownership to the research participant, set sharing permissions, and securely share data peer-to-peer with Ceramic/TextileDB. Data can be shared and unshared at any time, with the research participant retaining ultimate ownership over their raw data. DIDs corresponding to collaborating researchers can be added to share data in private data sharing spaces. 
+
 ![Diagram](/public/assets/Opsci_Diagram.png)
 
 ## 🕐 Weekend project overview
