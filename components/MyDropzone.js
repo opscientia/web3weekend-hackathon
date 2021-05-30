@@ -5,7 +5,7 @@ import {getMetamaskIdentity} from '../lib/signerconnect'
 import { Card,Text, Row, Col, Loading } from '@geist-ui/react';
 import {Upload, Meh} from '@geist-ui/react-icons'
 import Form from './Form';
-
+import Private from "./Private"
 
 class MyDropzone extends React.Component {
     //hack, putting keys here, might have to shift a few components up
@@ -271,24 +271,14 @@ class MyDropzone extends React.Component {
                 {
                     src: `${this.ipfsGateway}/ipfs/${fileOnBucket.cid}`,
                     key: fileOnBucket.name,
+                    authors: this.state.authors,
+                    title: this.state.title,
                 }
             ]
         })
 
         this.setState({loadingMessage: null})
     }
-
-
-    // onDrop = async (acceptedFiles) => {
-    //     const now = new Date().getTime()
-    //     for (const file of acceptedFiles) {
-    //       //setting a simple format date_filename
-    //       const filename = `${now}_${file.name}`
-    //       console.log(filename)
-    //       await this.handleNewFile(file)
-    //     }
-    //   this.storeIndex(this.state.index)
-    // }
 
     onDrop = async (acceptedFiles) => {
         for (const file of acceptedFiles) {
@@ -323,10 +313,49 @@ class MyDropzone extends React.Component {
         this.setState({authors: e.target.value})
     }
 
+    formatBucketData() {
+
+        // {
+        //   src:`${this.ipfsGateway}/ipfs/${file.cid}`,
+        //   key: file.name,
+        //   authors: file.authors,
+        //   title: file.title,
+        // }
+        // {
+        //     "Name": "Multi-echo fMRI replication sample of \nautobiographical memory, prospection and \ntheory of mind reasoning tasks",
+        //     "BIDSVersion": "1.0.2",
+        //     "License": "PDDL",
+        //     "Authors": ["Elizabeth DuPre", "Wen-Ming Luh", "R. Nathan Spreng"],
+        //     "Tags": ["Brains", "fMRI"]
+        // },
+
+        var res = []
+        for (var f in this.state.files) {
+            res.push({
+                "Name": f.title,
+                "Authors": [f.authors,],
+                "Tags": ["Brains", "fMRI"],
+                "BIDSVersion": "1.0.2",
+            })
+        }
+
+        const myData = {
+            mockData: res,
+        }
+        console.log("files:", this.state.files)
+        console.log("myData:", myData)
+
+        return myData
+    }
+
     render(){
       const listItems = this.state.files.map((f) => <p>{f.key} | {f.src}</p>)
+      const bucketData = this.formatBucketData()
       return (
           <>
+
+            <Private myData={bucketData} accessData={bucketData} />
+
             <Dropzone
               onDrop={this.onDrop}
               maxSize={20000000}
@@ -381,11 +410,10 @@ class MyDropzone extends React.Component {
             <Form
                 loading={this.state.loadingMessage}
                 title={this.state.title}
-                titlehandler={this.titleHandler}
+                titleHandler={this.titleHandler}
                 authors={this.state.authors}
-                authorhandler={this.authorhandler}
-                submitHandler={this.submitHandler}
-                listItems={listItems}/>
+                authorsHandler={this.authorsHandler}
+                submitHandler={this.submitHandler}/>
         </>
       )
   }
