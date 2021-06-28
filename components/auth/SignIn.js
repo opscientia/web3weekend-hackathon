@@ -4,7 +4,6 @@ import * as Icons from 'react-feather';
 
 function SignIn() {
   const [email, setEmail] = useState('');
-  //    const [modal, setModal] = useState(true);
   const closeHandler = (event) => {
     setModal(false);
   };

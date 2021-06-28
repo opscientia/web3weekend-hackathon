@@ -1,5 +1,6 @@
-import React from 'react'
-import { Input, Button, Row, Col, Loading } from '@geist-ui/react';
+import React from 'react';
+import { Input, Button, Row, Col } from '@geist-ui/react';
+import Popup from "./Popup"
 
 function Form(props) {
     return (
@@ -22,6 +23,7 @@ function Form(props) {
             </Col>
             </Row>
             <Button align="center" onClick={props.submitHandler}>Submit</Button>
+            <Popup submitSuccess={props.submitSuccess}/>
         </ div>
     )
 };

@@ -128,7 +128,7 @@ const Menu = ({ connectUser, provider }) => {
         <div className={classes.headerContent}>
             <div style={{ display: 'flex' }}>
               <Avatar alt="Your Avatar" className={classes.avatar} src="/assets/Opscientia.png" />
-              <div className={classes.headerTitle}> <Text h3>OpsciBay  &nbsp;</Text></div>
+              <div className={classes.headerTitle}> <Text h3>Open Science Wallet  &nbsp;</Text></div>
             </div>
             <div className={classes.sidebar}>
               <Button
@@ -149,7 +149,6 @@ const Menu = ({ connectUser, provider }) => {
           <Tabs initialValue={tab} onChange={ (val) => {changeTab(val)}}>
             <Tabs.Item label="Upload" value="/" />
             <Tabs.Item label="Public" value="/public" />
-            <Tabs.Item label="Private" value="/private" />
           </Tabs>
         </div>
       </nav>

@@ -52,8 +52,9 @@ Access the UI at: https://web3weekend-hackathon.vercel.app/
 ## Getting Started
 
 First, install dependencies:
+
 ```bash
-npm install
+yarn install
 ```
 
 Next, run the development server:
@@ -106,4 +107,4 @@ _"The most significant existential challenge for the future of science is human 
 
 [OpscientiaDAO on Medium](https://medium.com/opscientia-dao)
 
-[![Opscientia](https://img.shields.io/discord/819266495972507699.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/S3uDbdFKA9)
+[![Opscientia](https://img.shields.io/discord/819266495972507699.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/gfJ5jDu2)

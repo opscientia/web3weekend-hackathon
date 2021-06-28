@@ -30,6 +30,8 @@
     "web3modal": "^1.9.3"
   },
   "devDependencies": {
+    "@iconify-icons/simple-icons": "^1.1.26",
+    "@iconify/react": "^1.1.4",
     "json-loader": "^0.5.7"
   }
 }
