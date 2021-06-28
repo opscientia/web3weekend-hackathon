@@ -8,7 +8,6 @@ import Form from './Form';
 import Private from "./Private"
 
 class MyDropzone extends React.Component {
-    //hack, putting keys here, might have to shift a few components up
 
     ipfsGateway = 'https://hub.textile.io'
     keyInfo = {
@@ -30,9 +29,7 @@ class MyDropzone extends React.Component {
       input_file: null,
       title: null,
       authors: null,
-
     }
-
 
     async componentDidMount() {
       this.setState({loadingMessage: "waiting for metamask"})
@@ -41,17 +38,17 @@ class MyDropzone extends React.Component {
         identity: identity
       })
 
-      this.setState({loadingMessage: "fetching bucket keys"})
+      this.setState({loadingMessage: "fetching data"})
       const {bucketKey, buckets} = await this.getBucketKey()
       this.setState({
         buckets: buckets,
         bucketKey: bucketKey
       })
 
-      this.setState({loadingMessage: "fetching bucket links"})
+      this.setState({loadingMessage: "fetching data"})
       await this.getBucketLinks()
 
-      this.setState({loadingMessage: "fetching index"})
+      this.setState({loadingMessage: "fetching data"})
       const index = await this.getFileIndex()
       if (index) {
         await this.filelistFromIndex(index)
@@ -67,9 +64,9 @@ class MyDropzone extends React.Component {
       this.setState({loadingMessage: null})
     }
 
-    /////////////////////////////////////
-    // Textile Bucket api init stuff
-
+    /**
+     * Textile Bucket api init
+     */
     getIdentity = async () => {
       try {
         return getMetamaskIdentity()
@@ -105,10 +102,10 @@ class MyDropzone extends React.Component {
       })
     }
 
-    ///////////////////////////////////////
-    //Storing and retrieval from bucket
-
-    //store metadata json into bucket
+    /**
+     * Storing and retrieval from bucket
+     * store metadata json into bucket
+     */
     storeIndex = async (index) => {
       if (!this.state.buckets || !this.state.bucketKey) {
         console.error('No bucket client or root key')
@@ -124,7 +121,7 @@ class MyDropzone extends React.Component {
         console.error('Identity not set')
         return
       }
-      //this will be converted to JSON, this is basically author metadata
+      // this will be converted to JSON, this is author metadata
       const index = {
         author: this.state.identity.public.toString(),
         date: (new Date()).getTime(),
@@ -142,7 +139,7 @@ class MyDropzone extends React.Component {
             return
         }
 
-        //get file paths from index.paths array
+        // get file paths from index.paths array
         for (let path of index.paths) {
             console.log(path)
             const metadata = await this.state.buckets.pullPath(this.state.bucketKey, path)
@@ -196,10 +193,9 @@ class MyDropzone extends React.Component {
       }
     }
 
-
-    ///////////////////////////////////////
-    //File handling, on drop and setting metadata, uploading to bucket etc.
-
+    /**
+     * File handling, on drop and setting metadata, uploading to bucket etc.
+     */
     insertFile = async (file, path) => {
       if (!this.state.buckets || !this.state.bucketKey) {
         throw new Error('No bucket client or root key')
@@ -209,10 +205,6 @@ class MyDropzone extends React.Component {
     }
 
     processAndStore = async (file, path, name) => {
-        console.log("processAndStore")
-        console.log(file, path, name)
-      // const finalImage = limits ? await readAndCompressImage(image, limits) : image
-      // const size = await browserImageSize(finalImage)
       const location = `${path}${name}`
       const raw = await this.insertFile(file, location)
       const metadata = {
@@ -220,7 +212,6 @@ class MyDropzone extends React.Component {
         name: name,
         path: location,
       }
-      console.log(metadata)
       return metadata
     }
 
@@ -238,16 +229,14 @@ class MyDropzone extends React.Component {
         fileSchema['name'] = `${file.name}`
         fileSchema['title'] = this.state.title
         fileSchema['authors'] = this.state.authors
-        //TODO: this
+        
         const filename = `${now}_${file.name}`
         this.setState({loadingMessage: "pushing file to bucket"})
         fileSchema['original'] = await this.processAndStore(file, 'originals/', filename)
 
-
         const metadata = Buffer.from(JSON.stringify(fileSchema, null, 2))
         const metaname = `${now}_${file.name}.json`
         const path = `metadata/${metaname}`
-        console.log("metadata: ", metadata)
         this.setState({loadingMessage: "pushing metadata"})
         await this.state.buckets.pushPath(this.state.bucketKey, path, metadata)
         const fileOnBucket = fileSchema['original']
@@ -274,7 +263,6 @@ class MyDropzone extends React.Component {
     onDrop = async (acceptedFiles) => {
         for (const file of acceptedFiles) {
           //setting a simple format date_filename
-          console.log(file.name)
           this.setState({input_file: file})
         }
     }
@@ -310,21 +298,6 @@ class MyDropzone extends React.Component {
     }
 
     formatBucketData() {
-
-        // {
-        //   src:`${this.ipfsGateway}/ipfs/${file.cid}`,
-        //   key: file.name,
-        //   authors: file.authors,
-        //   title: file.title,
-        // }
-        // {
-        //     "Name": "Multi-echo fMRI replication sample of \nautobiographical memory, prospection and \ntheory of mind reasoning tasks",
-        //     "BIDSVersion": "1.0.2",
-        //     "License": "PDDL",
-        //     "Authors": ["Elizabeth DuPre", "Wen-Ming Luh", "R. Nathan Spreng"],
-        //     "Tags": ["Brains", "fMRI"]
-        // },
-
         var res = []
         for (var f in this.state.files) {
             res.push({
@@ -338,14 +311,11 @@ class MyDropzone extends React.Component {
         const myData = {
             mockData: res,
         }
-        console.log("files:", this.state.files)
-        console.log("myData:", myData)
 
         return myData
     }
 
     render(){
-      const listItems = this.state.files.map((f) => <p>{f.key} | {f.src}</p>)
       const bucketData = this.formatBucketData()
       return (
           <>

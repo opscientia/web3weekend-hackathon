@@ -149,7 +149,6 @@ const Menu = ({ connectUser, provider }) => {
           <Tabs initialValue={tab} onChange={ (val) => {changeTab(val)}}>
             <Tabs.Item label="Upload" value="/" />
             <Tabs.Item label="Public" value="/public" />
-            {/* <Tabs.Item label="Private" value="/private" /> */}
           </Tabs>
         </div>
       </nav>
